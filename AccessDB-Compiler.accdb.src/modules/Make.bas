@@ -5,10 +5,10 @@ Option Explicit
 '   by Adam Kauffman on 2020-01-07
 '
 '   Designed to work with code exported by msaccess-vcs-integration
-'   https://github.com/joyfullservice/msaccess-vcs-integration
-'   https://github.com/timabell/msaccess-vcs-integration
+'       https://github.com/joyfullservice/msaccess-vcs-integration
+'       https://github.com/timabell/msaccess-vcs-integration
 '--------------------------------------------------------------------
-Const Version = "0.1.0"
+Const Version = "0.1.1"
 
 ' Keep a persistent reference to file system object after initializing version control.
 Private m_FSO As Object
@@ -19,22 +19,33 @@ End Function
 
 ' This is the main entry point called by the Compiler GUI
 Public Sub Build(ByVal sourceFolder As String, ByVal outputFile As String, Optional ByVal overwrite As Boolean = False)
-    Debug.Print String(32, vbNewLine)
-    Debug.Print "-= " & CurrentProject.Name & " =-"
-    Debug.Print "   Version: " & Version
-    Debug.Print "   Runtime: " & Now
+    Const cstrSpacer As String = "-------------------------------"
+    Dim startTime As Single
+    startTime = Timer
+    Debug.Print  'String(32, vbNewLine)
+    Debug.Print cstrSpacer
+    Debug.Print " -= " & CurrentProject.Name & " =-"
+    Debug.Print " Version: " & Version
+    Debug.Print " Started: " & Now
     Debug.Print
+    Debug.Print cstrSpacer
+    Debug.Print " Source Folder:"
+    Debug.Print sourceFolder
     If overwrite Then DestoryDB outputFile
     
     Dim newApp As Application
     Set newApp = New Access.Application
     newApp.NewCurrentDatabase outputFile
-    Debug.Print "Created new DB: " & newApp.CurrentDb.Name
+    On Error GoTo ErrorHandler
+    Debug.Print " Created new DB: "
+    Debug.Print newApp.CurrentDb.Name
+    Debug.Print cstrSpacer
     Debug.Print
     If DebugOutput Then newApp.Visible = True
 
-    On Error GoTo ErrorHandler
     ImportAllSource False, sourceFolder, newApp
+    Debug.Print
+    Debug.Print " Runtime: " & Round(Timer - startTime, 2) & " seconds"
     
 ErrorHandler:
     If Err.Number > 0 Then
@@ -60,7 +71,7 @@ ErrorHandler:
         thisFileName = FSO.GetFileName(dbFullPath)
         If InStr(1, thisFileName, ".") = 0 Then
             ' This is too dangerous. Let's not.
-            dbFullPath = Dir(dbFullPath & ".*")
+            thisFileName = Dir(dbFullPath & ".*")
         End If
     ElseIf Err.Number > 0 Then
         Debug.Print Err.Number & " " & Err.Description

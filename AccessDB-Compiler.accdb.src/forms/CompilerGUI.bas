@@ -16,11 +16,11 @@ Begin Form
     GridX =24
     GridY =24
     Width =11700
-    ItemSuffix =43
-    Left =-27256
-    Top =4230
-    Right =-15796
-    Bottom =7095
+    ItemSuffix =44
+    Left =32025
+    Top =2775
+    Right =-14206
+    Bottom =15600
     DatasheetGridlinesColor =12632256
     RecSrcDt = Begin
         0xfd4ee20d2d67e540
@@ -113,7 +113,7 @@ Begin Form
             Begin
                 Begin TextBox
                     Locked = NotDefault
-                    OverlapFlags =85
+                    OverlapFlags =93
                     Left =240
                     Top =540
                     Width =10740
@@ -148,30 +148,50 @@ Begin Form
                     End
                 End
                 Begin CommandButton
-                    OverlapFlags =85
+                    OverlapFlags =119
                     Left =11040
                     Top =540
                     Width =300
-                    Height =300
+                    Height =240
                     TabIndex =1
+                    ForeColor =16777215
                     Name ="SelectSourceFolder"
                     Caption ="..."
                     OnClick ="[Event Procedure]"
                     FontName ="Segoe UI"
+                    ControlTipText ="Select source folder"
+                    LeftPadding =105
+                    TopPadding =60
+                    RightPadding =120
+                    BottomPadding =165
 
                     LayoutCachedLeft =11040
                     LayoutCachedTop =540
                     LayoutCachedWidth =11340
-                    LayoutCachedHeight =840
-                    WebImagePaddingLeft =2
-                    WebImagePaddingTop =2
-                    WebImagePaddingRight =1
-                    WebImagePaddingBottom =1
+                    LayoutCachedHeight =780
+                    ForeThemeColorIndex =1
+                    UseTheme =1
+                    Gradient =2
+                    BackColor =10855845
+                    BackThemeColorIndex =6
+                    BorderColor =10855845
+                    BorderThemeColorIndex =6
+                    HoverColor =12040119
+                    HoverThemeColorIndex =6
+                    HoverTint =80.0
+                    PressedColor =8684676
+                    PressedThemeColorIndex =6
+                    PressedShade =80.0
+                    HoverForeThemeColorIndex =1
+                    PressedForeThemeColorIndex =1
+                    Shadow =-1
+                    QuickStyle =39
+                    QuickStyleMask =-1
                     Overlaps =1
                 End
                 Begin TextBox
                     Locked = NotDefault
-                    OverlapFlags =85
+                    OverlapFlags =93
                     Left =240
                     Top =1260
                     Width =10740
@@ -207,25 +227,44 @@ Begin Form
                     End
                 End
                 Begin CommandButton
+                    Default = NotDefault
                     OverlapFlags =85
-                    AccessKey =79
                     Left =10200
-                    Top =2160
+                    Top =2220
                     Width =1140
                     TabIndex =4
+                    ForeColor =16777215
                     Name ="cmdOK"
-                    Caption ="&OK"
+                    Caption ="Make"
                     OnClick ="[Event Procedure]"
                     FontName ="Segoe UI"
+                    LeftPadding =105
+                    TopPadding =60
+                    RightPadding =120
+                    BottomPadding =165
 
                     LayoutCachedLeft =10200
-                    LayoutCachedTop =2160
+                    LayoutCachedTop =2220
                     LayoutCachedWidth =11340
-                    LayoutCachedHeight =2520
-                    WebImagePaddingLeft =2
-                    WebImagePaddingTop =2
-                    WebImagePaddingRight =1
-                    WebImagePaddingBottom =1
+                    LayoutCachedHeight =2580
+                    ForeThemeColorIndex =1
+                    UseTheme =1
+                    Gradient =2
+                    BackColor =10855845
+                    BackThemeColorIndex =6
+                    BorderColor =10855845
+                    BorderThemeColorIndex =6
+                    HoverColor =12040119
+                    HoverThemeColorIndex =6
+                    HoverTint =80.0
+                    PressedColor =8684676
+                    PressedThemeColorIndex =6
+                    PressedShade =80.0
+                    HoverForeThemeColorIndex =1
+                    PressedForeThemeColorIndex =1
+                    Shadow =-1
+                    QuickStyle =39
+                    QuickStyleMask =-1
                     Overlaps =1
                 End
                 Begin Line
@@ -278,26 +317,86 @@ Begin Form
                     End
                 End
                 Begin CommandButton
-                    OverlapFlags =85
+                    OverlapFlags =119
                     Left =11040
                     Top =1260
                     Width =300
-                    Height =300
+                    Height =240
                     TabIndex =5
+                    ForeColor =16777215
                     Name ="SelectOutputFile"
                     Caption ="..."
                     OnClick ="[Event Procedure]"
                     FontName ="Segoe UI"
+                    ControlTipText ="Select filename to output"
+                    LeftPadding =105
+                    TopPadding =60
+                    RightPadding =120
+                    BottomPadding =165
 
                     LayoutCachedLeft =11040
                     LayoutCachedTop =1260
                     LayoutCachedWidth =11340
-                    LayoutCachedHeight =1560
-                    WebImagePaddingLeft =2
-                    WebImagePaddingTop =2
-                    WebImagePaddingRight =1
-                    WebImagePaddingBottom =1
+                    LayoutCachedHeight =1500
+                    ForeThemeColorIndex =1
+                    UseTheme =1
+                    Gradient =2
+                    BackColor =10855845
+                    BackThemeColorIndex =6
+                    BorderColor =10855845
+                    BorderThemeColorIndex =6
+                    HoverColor =12040119
+                    HoverThemeColorIndex =6
+                    HoverTint =80.0
+                    PressedColor =8684676
+                    PressedThemeColorIndex =6
+                    PressedShade =80.0
+                    HoverForeThemeColorIndex =1
+                    PressedForeThemeColorIndex =1
+                    Shadow =-1
+                    QuickStyle =39
+                    QuickStyleMask =-1
                     Overlaps =1
+                End
+                Begin CommandButton
+                    OverlapFlags =85
+                    Left =240
+                    Top =2220
+                    Width =1800
+                    TabIndex =6
+                    ForeColor =16777215
+                    Name ="LoadVCS"
+                    Caption ="Load Version Control"
+                    OnClick ="[Event Procedure]"
+                    FontName ="Segoe UI"
+                    ControlTipText ="Requires 'Version Control.accda'"
+                    LeftPadding =105
+                    TopPadding =60
+                    RightPadding =120
+                    BottomPadding =165
+
+                    LayoutCachedLeft =240
+                    LayoutCachedTop =2220
+                    LayoutCachedWidth =2040
+                    LayoutCachedHeight =2580
+                    ForeThemeColorIndex =1
+                    UseTheme =1
+                    Gradient =2
+                    BackColor =10855845
+                    BackThemeColorIndex =6
+                    BorderColor =10855845
+                    BorderThemeColorIndex =6
+                    HoverColor =12040119
+                    HoverThemeColorIndex =6
+                    HoverTint =80.0
+                    PressedColor =8684676
+                    PressedThemeColorIndex =6
+                    PressedShade =80.0
+                    HoverForeThemeColorIndex =1
+                    PressedForeThemeColorIndex =1
+                    Shadow =-1
+                    QuickStyle =39
+                    QuickStyleMask =-1
                 End
             End
         End
@@ -310,45 +409,70 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Compare Database
 Option Explicit
+'--------------------------------------------------------------------
+' GUI for Complier to Make and Build Access DB from source files.
+'   by Adam Kauffman on 2020-01-07
+'
+'   Designed to work with code exported by msaccess-vcs-integration
+'       https://github.com/joyfullservice/msaccess-vcs-integration
+'       https://github.com/timabell/msaccess-vcs-integration
+'--------------------------------------------------------------------
+Private VCSLoaded As Boolean
 
-Private Sub SelectOutputFile_Click()
-    On Error GoTo Err_Section
+' Point to a folder that was created by an export command
+Private Sub SelectSourceFolder_Click()
+    On Error GoTo ErrorHandler
     
     Dim selection As String
-    If IsNull(Me.OutputFilePath.Value) Or Me.OutputFilePath.Value = vbNullString Then
-        selection = GetSaveasFile(VCS_ProjectPath & "*.accdb")
-    Else
-        selection = GetSaveasFile(Me.OutputFilePath.Value & "*.accdb")
-    End If
-       
-    If selection <> vbNullString Then Me.OutputFilePath.Value = selection
-       
-Err_Section:
-    If Err.Number <> 0 Then MsgBox "Error in cmdBuild_Click - " & Err.Number & " - " & Err.Description
-
-End Sub
-
-Private Sub SelectSourceFolder_Click()
-    Dim strRtn As String
-
-    On Error Resume Next
-
-    strRtn = BrowseFolder("Select a folder containing the source files.", Me.SourceFolderPath.Value)
-    If strRtn <> vbNullString Then Me.SourceFolderPath.Value = strRtn
+    selection = BrowseFolder(Nz(Me.SourceFolderPath.Value, VCS_ProjectPath), "Select a folder containing the source files.")
+    If selection <> vbNullString Then
+        Me.SourceFolderPath.Value = selection
         
-    On Error GoTo 0
+        If Right$(selection, 5) = ".src\" Then  ' Construct output filename from exported folder name
+            With FSO.GetFolder(selection)
+                Me.OutputFilePath.Value = .ParentFolder & "\" & Left$(.Name, Len(.Name) - 4)
+            End With
+        End If
+    End If
+        
+ErrorHandler:
     If Err.Number <> 0 Then MsgBox "Error in cmdBuild2_Click (9): " & Err.Number & " - " & Err.Description
 
 End Sub
 
+' Full path of the file to be created in the build
+Private Sub SelectOutputFile_Click()
+    On Error GoTo ErrorHandler
+    
+    Dim selection As String
+    If IsNull(Me.OutputFilePath.Value) Or Me.OutputFilePath.Value = vbNullString Then
+        selection = GetSaveasFile(VCS_ProjectPath)
+    Else
+        selection = GetSaveasFile(Me.OutputFilePath.Value)
+    End If
+       
+    If selection <> vbNullString Then Me.OutputFilePath.Value = selection
+       
+ErrorHandler:
+    If Err.Number <> 0 Then MsgBox "Error in cmdBuild_Click - " & Err.Number & " - " & Err.Description
+
+End Sub
+
+' Run the main build process using settings from GUI
 Private Sub cmdOK_Click()
-    On Error GoTo Err_cmdOK_Click
+    On Error GoTo ErrorHandler
 
     If Me.Dirty Then Me.Dirty = False
     
     Make.Build Me.SourceFolderPath.Value, Me.OutputFilePath.Value, Me.OverwriteFlag.Value
 
-Err_cmdOK_Click:
+ErrorHandler:
     If Err.Number <> 0 Then MsgBox Err.Description
     
+End Sub
+
+' Load or Unload Version Control Add-in
+Private Sub LoadVCS_Click()
+    VCSLoaded = Not VCSLoaded
+    InitializeVersionControlSystem VCSLoaded
 End Sub

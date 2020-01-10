@@ -2,14 +2,14 @@
 Beginning Export of all Source
 AccessDB-Compiler.accdb
 VCS Version 1.2.0.19
-1/7/2020 4:42:30 PM
+Using Fast Save
+1/9/2020 4:50:45 PM
 -------------------------------
 Exporting queries...    
 [0]
 -------------------------------
 Exporting forms...      
-  CompilerGUI
-    Sanitized in 0.03 seconds.
+  (Skipping 'CompilerGUI')
 [1]
 -------------------------------
 Exporting reports...    
@@ -32,7 +32,9 @@ Exporting modules...
   ImportQuery
   ImportReference
   ImportTable
-[13]
+  VersionControl
+  ImportProperty
+[15]
 -------------------------------
 Exporting references... 
   VBA 4.2
@@ -46,17 +48,16 @@ Exporting references...
 [8]
 -------------------------------
 Exporting properties... 
-[49]
+[50]
 -------------------------------
 Exporting specs...      
 [0]
 -------------------------------
 Exporting tbldef...     
-  CompilerSettings (with SQL)
-  CompilerSettings
+  (Skipping 'CompilerSettings')
 [1]
 -------------------------------
 Exporting relations...  
 [0]
 -------------------------------
-Done. (1.14 seconds)
+Done. (1.04 seconds)

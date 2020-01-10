@@ -3,7 +3,7 @@ Option Private Module
 Option Explicit
 
 ' Import References from a GUID or file, true=SUCCESS
-Public Function VCS_ImportReferences(ByVal obj_path As String, Optional appInstance As Application) As Boolean
+Public Function VCS_ImportReferences(ByVal obj_path As String, Optional ByRef appInstance As Application) As Boolean
     If appInstance Is Nothing Then Set appInstance = Application.Application
     Dim InFile As Object
     Dim line As String
@@ -11,16 +11,16 @@ Public Function VCS_ImportReferences(ByVal obj_path As String, Optional appInsta
     Dim GUID As String
     Dim Major As Long
     Dim Minor As Long
-    Dim fileName As String
+    Dim FileName As String
     Dim refName As String
     
-    fileName = Dir$(obj_path & "references.csv")
-    If Len(fileName) = 0 Then
+    FileName = Dir$(obj_path & "references.csv")
+    If Len(FileName) = 0 Then
         VCS_ImportReferences = False
         Exit Function
     End If
     
-    Set InFile = FSO.OpenTextFile(obj_path & fileName, iomode:=ForReading, create:=False, Format:=TristateFalse)
+    Set InFile = FSO.OpenTextFile(obj_path & FileName, iomode:=ForReading, create:=False, Format:=TristateFalse)
     
     Dim refCount As Long
     Debug.Print VCS_String.VCS_PadRight("Importing References...", 24);

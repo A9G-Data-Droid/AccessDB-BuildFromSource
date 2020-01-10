@@ -38,7 +38,7 @@ Private Type type_DEVMODE
     lngDFr As Long
 End Type
 
-Public Sub VCS_ImportPrintVars(ByVal obj_name As String, ByVal filePath As String, Optional appInstance As Application)
+Public Sub VCS_ImportPrintVars(ByVal obj_name As String, ByVal filePath As String, Optional ByRef appInstance As Application)
     If appInstance Is Nothing Then Set appInstance = Application.Application
    
     Dim DevModeString As str_DEVMODE

@@ -10,40 +10,37 @@ Public Const TristateTrue = -1
 Public Const TristateFalse = 0
 Public Const TristateUseDefault = -2
 
-
-' Can we export without closing the form?
-
 ' Export a database object with optional UCS2-to-UTF-8 conversion.
 Public Sub VCS_ExportObject(ByVal obj_type_num As Integer, ByVal obj_name As String, _
-                            ByVal file_path As String, Optional ByVal Ucs2Convert As Boolean = False, Optional appInstance As Application)
+                            ByVal file_path As String, Optional ByVal Ucs2Convert As Boolean = False, Optional ByRef appInstance As Application)
                     
     If appInstance Is Nothing Then Set appInstance = Application.Application
-
+    
     VCS_Dir.VCS_MkDirIfNotExist Left$(file_path, InStrRev(file_path, "\"))
     If Ucs2Convert Then
         Dim tempFileName As String
         tempFileName = VCS_File.VCS_TempFile()
         appInstance.SaveAsText obj_type_num, obj_name, tempFileName
         If obj_type_num = acModule Then
-            Open tempFileName For Append As #1
-            Write #1,
-            Close #1
+            With FSO.OpenTextFile(tempFileName, ForAppending, False, TristateTrue)
+                .WriteBlankLines 1
+            End With
         End If
         
-        VCS_File.VCS_ConvertUcs2Utf8 tempFileName, file_path
+        VCS_File.ConvertUcs2Utf8 tempFileName, file_path
     Else
         appInstance.SaveAsText obj_type_num, obj_name, file_path
         If obj_type_num = acModule Then
-            Open file_path For Append As #1
-            Write #1,
-            Close #1
+            With FSO.OpenTextFile(file_path, ForAppending, False, TristateTrue)
+                .WriteBlankLines 1
+            End With
         End If
     End If
 End Sub
 
 ' Import a database object with optional UTF-8-to-UCS2 conversion.
 Public Sub VCS_ImportObject(ByVal obj_type_num As Integer, ByVal obj_name As String, _
-                            ByVal file_path As String, Optional ByVal Ucs2Convert As Boolean = False, Optional appInstance As Application)
+                            ByVal file_path As String, Optional ByVal Ucs2Convert As Boolean = False, Optional ByRef appInstance As Application)
                     
     If appInstance Is Nothing Then Set appInstance = Application.Application
     

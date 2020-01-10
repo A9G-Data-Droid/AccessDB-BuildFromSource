@@ -127,35 +127,37 @@ Private Sub BinClose(ByRef f As BinFile)
 End Sub
 
 ' Binary convert a UCS2-little-endian encoded file to UTF-8.
-Public Sub VCS_ConvertUcs2Utf8(ByVal Source As String, ByVal dest As String)
-    Dim f_in As BinFile
-    Dim f_out As BinFile
-    Dim in_low As Integer
-    Dim in_high As Integer
+'---------------------------------------------------------------------------------------
+' Procedure : ConvertUcs2Utf8
+' Author    : Adam Waller
+' Date      : 1/23/2019
+' Purpose   : Convert the file to unicode format
+'---------------------------------------------------------------------------------------
+'
+Public Sub ConvertUcs2Utf8(strSourceFile As String, strDestinationFile As String)
 
-    f_in = BinOpen(Source, "r")
-    f_out = BinOpen(dest, "w")
-
-    Do While Not f_in.at_eof
-        in_low = BinRead(f_in)
-        in_high = BinRead(f_in)
-        If in_high = 0 And in_low < &H80 Then
-            ' U+0000 - U+007F   0LLLLLLL
-            BinWrite f_out, in_low
-        ElseIf in_high < &H8 Then
-            ' U+0080 - U+07FF   110HHHLL 10LLLLLL
-            BinWrite f_out, &HC0 + ((in_high And &H7) * &H4) + ((in_low And &HC0) / &H40)
-            BinWrite f_out, &H80 + (in_low And &H3F)
-        Else
-            ' U+0800 - U+FFFF   1110HHHH 10HHHHLL 10LLLLLL
-            BinWrite f_out, &HE0 + ((in_high And &HF0) / &H10)
-            BinWrite f_out, &H80 + ((in_high And &HF) * &H4) + ((in_low And &HC0) / &H40)
-            BinWrite f_out, &H80 + (in_low And &H3F)
-        End If
-    Loop
-
-    BinClose f_in
-    BinClose f_out
+    Dim stmNew As Object
+    Set stmNew = CreateObject("ADODB.Stream")
+    Dim strText As String
+    
+    ' Read file contents
+    With FSO.OpenTextFile(strSourceFile, , , TristateTrue)
+        strText = .ReadAll
+        .Close
+    End With
+    
+    ' Write as UTF-8
+    With stmNew
+        .Open
+        .Type = 2 'adTypeText
+        .Charset = "utf-8"
+        .WriteText strText
+        .SaveToFile strDestinationFile, 2 'adSaveCreateOverWrite
+        .Close
+    End With
+    
+    Set stmNew = Nothing
+    
 End Sub
 
 ' Binary convert a UTF-8 encoded file to UCS2-little-endian.
@@ -195,7 +197,7 @@ End Sub
 
 ' Determine if this database imports/exports code as UCS-2-LE. (Older file
 ' formats cause exported objects to use a Windows 8-bit character set.)
-Public Function VCS_UsingUcs2(Optional appInstance As Application) As Boolean
+Public Function VCS_UsingUcs2(Optional ByRef appInstance As Application) As Boolean
     If appInstance Is Nothing Then Set appInstance = Application.Application
     Dim obj_name As String
     Dim obj_type As Variant

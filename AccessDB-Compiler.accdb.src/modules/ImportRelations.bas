@@ -2,7 +2,7 @@ Option Compare Database
 Option Private Module
 Option Explicit
 
-Public Sub VCS_ImportRelation(ByVal filePath As String, Optional appInstance As Application)
+Public Sub VCS_ImportRelation(ByVal filePath As String, Optional ByRef appInstance As Application)
     If appInstance Is Nothing Then Set appInstance = Application.Application
     
     Dim thisDB As Database

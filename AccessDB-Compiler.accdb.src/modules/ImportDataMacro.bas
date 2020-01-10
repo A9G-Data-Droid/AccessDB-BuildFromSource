@@ -7,7 +7,7 @@ Option Explicit
     Private Const acTableDataMacro As Integer = 12
 #End If
 
-Public Sub VCS_ImportDataMacros(ByVal tableName As String, ByVal directory As String, Optional appInstance As Application)
+Public Sub VCS_ImportDataMacros(ByVal tableName As String, ByVal directory As String, Optional ByRef appInstance As Application)
     If appInstance Is Nothing Then Set appInstance = Application.Application
     
     Dim filePath As String
