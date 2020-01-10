@@ -1,6 +1,24 @@
-# AccessDB-BuildFromSource
+AccessDB-BuildFromSource
+========================
 
- Builds a new AccessDB from source files exported.
+# About
+
+ Builds a new AccessDB from source files exported from msaccess-vcs-integration. 
+ I am working with code from both the Add-In: https://github.com/joyfullservice/msaccess-vcs-integration
  
- This is 100% safe to use with VBA source files right now. 
- It will import other objects found but consider this functionality in beta status.
+ And the upstream: https://github.com/timabell/msaccess-vcs-integration
+ 
+Currently imports:
+ 
+* Queries
+* Forms
+* Reports
+* Macros
+* Modules
+* Table Data
+* Table Definitions
+* Table Data Macros
+
+Up Next:
+
+* Database Properties
