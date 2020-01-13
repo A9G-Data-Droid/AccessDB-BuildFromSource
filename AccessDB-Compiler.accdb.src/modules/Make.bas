@@ -8,7 +8,7 @@ Option Explicit
 '       https://github.com/joyfullservice/msaccess-vcs-integration
 '       https://github.com/timabell/msaccess-vcs-integration
 '--------------------------------------------------------------------
-Const Version = "0.1.1"
+Const Version = "0.2.0"
 
 ' Keep a persistent reference to file system object after initializing version control.
 Private m_FSO As Object
