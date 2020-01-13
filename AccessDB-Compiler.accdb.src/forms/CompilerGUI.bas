@@ -18,7 +18,7 @@ Begin Form
     Width =11700
     ItemSuffix =44
     Left =32025
-    Top =2775
+    Top =1335
     Right =-14206
     Bottom =15600
     DatasheetGridlinesColor =12632256
@@ -112,7 +112,6 @@ Begin Form
             BackShade =25.0
             Begin
                 Begin TextBox
-                    Locked = NotDefault
                     OverlapFlags =93
                     Left =240
                     Top =540
@@ -190,7 +189,6 @@ Begin Form
                     Overlaps =1
                 End
                 Begin TextBox
-                    Locked = NotDefault
                     OverlapFlags =93
                     Left =240
                     Top =1260

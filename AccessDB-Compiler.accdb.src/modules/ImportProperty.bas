@@ -1,10 +1,23 @@
 Option Explicit
 Option Compare Database
 Option Private Module
+
+Private Const UnitSeparator = "?"  ' Chr(31) INFORMATION SEPARATOR ONE
+
+Public Function ThisProjectDB(Optional ByRef appInstance As Application) As Object
+    If appInstance Is Nothing Then Set appInstance = Application.Application
+    If CurrentProject.ProjectType = acMDB Then
+        Set ThisProjectDB = appInstance.CurrentDb
+    Else  ' ADP project
+        Set ThisProjectDB = appInstance.CurrentProject
+    End If
+End Function
+
+
 '---------------------------------------------------------------------------------------
 ' Module    : ImportProperties
 ' Author    : Adam Kauffman
-' Date      : 2020-01-09
+' Date      : 2020-01-10
 ' Purpose   : Import database properties from the exported source
 '---------------------------------------------------------------------------------------
 
@@ -21,37 +34,26 @@ Public Function ImportProperties(ByVal sourcePath As String, Optional ByRef appI
     
     Debug.Print VCS_String.VCS_PadRight("Importing Properties...", 24);
     
-    ' Save list of properties set in current database.
     Dim thisDB As Object
-    If CurrentProject.ProjectType = acMDB Then
-        Set thisDB = appInstance.CurrentDb
-    Else                                         ' ADP project
-        Set thisDB = appInstance.CurrentProject
-    End If
-    
+    Set thisDB = ThisProjectDB(appInstance)
+   
     Dim inputFile As Object
     Set inputFile = FSO.OpenTextFile(sourcePath & propertiesFile, ForReading)
     
     Dim propertyCount As Long
-    Dim fileLine As String
     On Error GoTo ErrorHandler
     Do Until inputFile.AtEndOfStream
-        fileLine = inputFile.ReadLine
-        Dim Item() As String
-        Item = Split(fileLine, "=")
-        If UBound(Item) > 0 Then ' Looks like a valid entry
+        Dim recordUnit() As String
+        recordUnit = Split(inputFile.ReadLine, UnitSeparator)
+        If UBound(recordUnit) > 1 Then ' Looks like a valid entry
             propertyCount = propertyCount + 1
             
             Dim propertyName As String
             Dim propertyValue As Variant
             Dim propertyType As Long
-            propertyName = Item(0)
-            propertyValue = Item(1)
-            If UBound(Item) > 1 Then
-                propertyType = Item(2)
-            Else
-                propertyType = -1
-            End If
+            propertyName = recordUnit(0)
+            propertyValue = recordUnit(1)
+            propertyType = recordUnit(2)
             
             SetProperty propertyName, propertyValue, thisDB, propertyType
         End If
@@ -68,7 +70,7 @@ ErrorHandler:
         ElseIf Err.Number = 3251 Then
             ' Operation is not supported for this type of object; means that this property cannot be set by code.
         Else
-            Debug.Print fileLine & " Error: " & Err.Number & " " & Err.Description
+            Debug.Print " Error: " & Err.Number & " " & Err.Description
         End If
         
         Err.Clear
@@ -84,31 +86,31 @@ ErrorHandler:
 
 End Function
 
-'SetProperty() requires that either intPType is set explicitly OR that
-'              varPVal has a valid value if a new property is to be created.
+' SetProperty() requires either propertyType is set explicitly OR
+'   propertyValue has a valid value and type for a new property to be created.
 Public Sub SetProperty(ByVal propertyName As String, ByVal propertyValue As Variant, _
-                       Optional ByRef thisDB As Database, _
+                       Optional ByRef thisDB As Object, _
                        Optional ByVal propertyType As Integer = -1)
                        
-    If thisDB Is Nothing Then Set thisDB = CurrentDb
+    If thisDB Is Nothing Then Set thisDB = ThisProjectDB
     
     Dim newProperty As Property
     Set newProperty = GetProperty(propertyName, thisDB)
     If Not newProperty Is Nothing Then
         If newProperty.Value <> propertyValue Then newProperty.Value = propertyValue
     Else ' Property not found
-        If propertyType = -1 Then propertyType = DBVal(varType(propertyValue))
+        If propertyType = -1 Then propertyType = DBVal(varType(propertyValue)) ' Guess the type (Good luck)
         Set newProperty = thisDB.CreateProperty(propertyName, propertyType, propertyValue)
         thisDB.Properties.Append newProperty
     End If
 End Sub
 
-' Returns nothing upon Error: 3270 Property not found.
+' Returns nothing upon Error
 Public Function GetProperty(ByVal propertyName As String, _
-                            Optional ByRef thisDB As Database) As Property
+                            Optional ByRef thisDB As Object) As Property
                             
     Const PropertyNotFound As Integer = 3270
-    If thisDB Is Nothing Then Set thisDB = CurrentDb
+    If thisDB Is Nothing Then Set thisDB = ThisProjectDB
     
     On Error GoTo Err_PropertyExists
     Set GetProperty = thisDB.Properties(propertyName)

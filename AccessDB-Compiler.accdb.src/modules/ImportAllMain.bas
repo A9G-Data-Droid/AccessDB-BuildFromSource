@@ -168,7 +168,7 @@ Public Sub ImportAllTableData(Optional ByVal src_path As String, Optional ByRef 
         obj_count = 0
         Do Until Len(FileName) = 0
             DoEvents
-            obj_name = Mid(FileName, 1, InStrRev(FileName, ".") - 1)
+            obj_name = Mid$(FileName, 1, InStrRev(FileName, ".") - 1)
             ImportTableData CStr(obj_name), obj_path, appInstance
             obj_count = obj_count + 1
             FileName = Dir$()

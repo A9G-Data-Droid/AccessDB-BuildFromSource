@@ -1,50 +1,50 @@
-Connect=
-Transactions=True
-Updatable=True
-CollatingOrder=1033
-QueryTimeout=60
-Version=14.0
-RecordsAffected=0
-ReplicaID=
-DesignMasterID=
-Connection=
-ANSI Query Mode=0
-Themed Form Controls=1
-Use Microsoft Access 2007 compatible cache=0
-Clear Cache on Close=1
-Never Cache=0
-AccessVersion=09.50
-NavPane Category=0
-Show Navigation Pane Search Bar=1
-ProjVer=141
-HasOfflineLists=70
-UseMDIMode=0
-ShowDocumentTabs=True
-Picture Property Storage Format=0
-WebDesignMode=0
-CheckTruncatedNumFields=1
-Theme Resource Name=Office Theme
-NavPane Closed=0
-NavPane Width=215
-NavPane View By=0
-NavPane Sort By=1
-AppTitle=Access DB Compiler
-StartUpShowDBWindow=True
-StartUpShowStatusBar=True
-AllowShortcutMenus=True
-AllowFullMenus=True
-AllowBuiltInToolbars=True
-AllowToolbarChanges=True
-AllowSpecialKeys=True
-UseAppIconForFrmRpt=False
-AllowDatasheetSchema=True
-DesignWithData=False
-StartUpForm=CompilerGUI
-Show Values Limit=1000
-Show Values in Indexed=1
-Show Values in Non-Indexed=1
-Show Values in Remote=0
-Auto Compact=1
-Remove Personal Information=1
-Use BigInt for linking and importing data=0
-Last VCS Version=1.2.0.19
+Connect??12
+Transactions?True?1
+Updatable?True?1
+CollatingOrder?1033?3
+QueryTimeout?60?3
+Version?14.0?12
+RecordsAffected?0?4
+ReplicaID??15
+DesignMasterID??15
+Connection??0
+ANSI Query Mode?0?4
+Themed Form Controls?1?4
+Use Microsoft Access 2007 compatible cache?0?4
+Clear Cache on Close?1?4
+Never Cache?0?4
+AccessVersion?09.50?10
+NavPane Category?0?4
+Show Navigation Pane Search Bar?1?4
+ProjVer?141?3
+HasOfflineLists?70?3
+UseMDIMode?0?2
+ShowDocumentTabs?True?1
+Picture Property Storage Format?0?4
+WebDesignMode?0?2
+CheckTruncatedNumFields?1?4
+Theme Resource Name?Office Theme?10
+NavPane Closed?0?4
+NavPane Width?215?4
+NavPane View By?0?4
+NavPane Sort By?1?4
+AppTitle?Access DB Compiler?10
+StartUpShowDBWindow?True?1
+StartUpShowStatusBar?True?1
+AllowShortcutMenus?True?1
+AllowFullMenus?True?1
+AllowBuiltInToolbars?True?1
+AllowToolbarChanges?True?1
+AllowSpecialKeys?True?1
+UseAppIconForFrmRpt?False?1
+AllowDatasheetSchema?True?1
+DesignWithData?False?1
+StartUpForm?CompilerGUI?10
+Show Values Limit?1000?4
+Show Values in Indexed?1?4
+Show Values in Non-Indexed?1?4
+Show Values in Remote?0?4
+Auto Compact?1?4
+Remove Personal Information?1?4
+Use BigInt for linking and importing data?0?4
+Last VCS Version?1.2.0.19?10

@@ -3,13 +3,14 @@ Beginning Export of all Source
 AccessDB-Compiler.accdb
 VCS Version 1.2.0.19
 Using Fast Save
-1/9/2020 4:50:45 PM
+1/13/2020 11:49:50 AM
 -------------------------------
 Exporting queries...    
 [0]
 -------------------------------
 Exporting forms...      
-  (Skipping 'CompilerGUI')
+  CompilerGUI
+    Sanitized in 0.03 seconds.
 [1]
 -------------------------------
 Exporting reports...    
@@ -60,4 +61,4 @@ Exporting tbldef...
 Exporting relations...  
 [0]
 -------------------------------
-Done. (1.04 seconds)
+Done. (1.14 seconds)
