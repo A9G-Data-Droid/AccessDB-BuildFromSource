@@ -41,7 +41,7 @@ Public Sub InitializeVersionControlSystem(Optional blnUseVersionControl As Boole
     ' Make sure we are in the current project, not a library database.
     If CurrentProject.FullName <> CodeProject.FullName Then
         ' Call the function in the current project instead.
-        Debug.Print "Please run this command from " & CurrentProject.Name
+        Form_LogWindow.WriteError "Please run this command from " & CurrentProject.Name
     Else
         ' Pass the parameters to the wrapper function
         LoadVersionControl blnUseVersionControl, cstrLibraryPath, cstrLibraryFile, cstrLibraryName, colParams
@@ -95,7 +95,7 @@ Private Sub LoadVersionControl(blnUseVersionControl As Boolean, strLibraryPath A
                             Application.References.Remove ref
                             Set ref = Nothing
                             Application.References.AddFromFile strFile
-                            Debug.Print "Updated Version Control System reference to: " & ref.FullPath
+                            Form_LogWindow.WriteLine "Updated Version Control System reference to: " & ref.FullPath
                             blnInitialize = True
                             blnLoaded = True
                         Else
@@ -112,7 +112,7 @@ Private Sub LoadVersionControl(blnUseVersionControl As Boolean, strLibraryPath A
                     Run strLibPrefix & "ReleaseObjectReferences"
                     Application.References.Remove ref
                     Set ref = Nothing
-                    Debug.Print "Removed Version Control System"
+                    Form_LogWindow.WriteLine "Removed Version Control System"
                     Exit For
                 End If
             End If
@@ -182,7 +182,7 @@ Private Sub LoadVersionControl(blnUseVersionControl As Boolean, strLibraryPath A
         ' (Use the Run commmand to avoid compile errors if the library was not loaded)
         If blnInitialize Then Run strLibPrefix & "LoadVersionControlMenu", colParams
     Else
-        Debug.Print "**ERROR** " & strError
+        Form_LogWindow.WriteError "**ERROR** " & strError
     End If
             
 End Sub

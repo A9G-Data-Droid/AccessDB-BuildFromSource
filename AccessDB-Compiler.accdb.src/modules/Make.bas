@@ -8,7 +8,7 @@ Option Explicit
 '       https://github.com/joyfullservice/msaccess-vcs-integration
 '       https://github.com/timabell/msaccess-vcs-integration
 '--------------------------------------------------------------------
-Const Version = "0.2.0"
+Const Version = "0.3.0"
 
 ' Keep a persistent reference to file system object after initializing version control.
 Private m_FSO As Object
@@ -22,34 +22,47 @@ Public Sub Build(ByVal sourceFolder As String, ByVal outputFile As String, Optio
     Const cstrSpacer As String = "-------------------------------"
     Dim startTime As Single
     startTime = Timer
-    Debug.Print  'String(32, vbNewLine)
-    Debug.Print cstrSpacer
-    Debug.Print " -= " & CurrentProject.Name & " =-"
-    Debug.Print " Version: " & Version
-    Debug.Print " Started: " & Now
-    Debug.Print
-    Debug.Print cstrSpacer
-    Debug.Print " Source Folder:"
-    Debug.Print sourceFolder
+    With Form_LogWindow
+        .Visible = True
+        .ClearLog
+        .WriteLine "<pre>"
+        .WriteLine cstrSpacer
+        .WriteLine " -= " & CurrentProject.Name & " =-"
+        .WriteLine " Version: " & Version
+        .WriteLine " Started: " & Now
+        .WriteLine
+        .WriteLine cstrSpacer
+        .WriteLine " Source Folder:"
+        .WriteLine sourceFolder
+    End With
+    
     If overwrite Then DestoryDB outputFile
     
     Dim newApp As Application
     Set newApp = New Access.Application
     newApp.NewCurrentDatabase outputFile
     On Error GoTo ErrorHandler
-    Debug.Print " Created new DB: "
-    Debug.Print newApp.CurrentDb.Name
-    Debug.Print cstrSpacer
-    Debug.Print
+    With Form_LogWindow
+        .WriteLine " Created new DB: "
+        .WriteLine newApp.CurrentDb.Name
+        .WriteLine cstrSpacer
+        .WriteLine
+    End With
+    
     If DebugOutput Then newApp.Visible = True
 
+    ' This is the main procedure
     ImportAllSource False, sourceFolder, newApp
-    Debug.Print
-    Debug.Print " Runtime: " & Round(Timer - startTime, 2) & " seconds"
+    
+    With Form_LogWindow
+        .WriteLine
+        .WriteLine " Runtime: " & Round(Timer - startTime, 2) & " seconds"
+        .WriteLine "</pre>"
+    End With
     
 ErrorHandler:
     If Err.Number > 0 Then
-        Debug.Print "Error: " & Err.Number & " " & Err.Description
+        Form_LogWindow.WriteError "Error: " & Err.Number & " " & Err.Description
     End If
 
     newApp.Quit acQuitSaveAll
@@ -62,7 +75,7 @@ Public Sub DestoryDB(ByVal dbFullPath As String)
     Dim theFile As Object
     Set theFile = FSO.GetFile(dbFullPath)
     theFile.Delete
-    Debug.Print "Deleted DB: " & dbFullPath
+    Form_LogWindow.WriteLine "Deleted DB: " & dbFullPath
     
 ErrorHandler:
     If Err.Number = 53 Then
@@ -74,7 +87,22 @@ ErrorHandler:
             thisFileName = Dir(dbFullPath & ".*")
         End If
     ElseIf Err.Number > 0 Then
-        Debug.Print Err.Number & " " & Err.Description
+        Form_LogWindow.WriteError Err.Number & " " & Err.Description
         Debug.Assert Err.Number = 0
     End If
+End Sub
+
+Public Sub HideAccessGui()
+    With DoCmd
+        .ShowToolbar "Ribbon", acToolbarNo
+        .NavigateTo "acNavigationCategoryObjectType"
+        .RunCommand acCmdWindowHide
+    End With
+End Sub
+
+Public Sub ShowAccessGui()
+    With DoCmd
+        .ShowToolbar "Ribbon", acToolbarYes
+        .SelectObject acForm, "CompilerGUI", True
+    End With
 End Sub

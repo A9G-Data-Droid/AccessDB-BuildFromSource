@@ -45,9 +45,9 @@ ErrorHandler:
     Select Case Err.Number
     Case 0
     Case 3012
-        If DebugOutput Then Debug.Print "Relationship already exists: """ & newRelation.Name & """ "
+        If DebugOutput Then Form_LogWindow.WriteError "Relationship already exists: """ & newRelation.Name & """ "
     Case Else
-        Debug.Print "Failed to add: """ & newRelation.Name & """ " & Err.Number & " " & Err.Description
+        Form_LogWindow.WriteError "Failed to add: """ & newRelation.Name & """ " & Err.Number & " " & Err.Description
     End Select
 End Sub
 

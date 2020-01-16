@@ -55,14 +55,14 @@ Public Sub ImportObjTypeSource(ByVal obj_type As Variant, Optional ByVal ignoreV
 
     If (obj_type_label = "modules") Then
         If Not ImportReference.VCS_ImportReferences(src_path, appInstance) Then
-            Debug.Print "Info: no references file in " & src_path
-            Debug.Print
+            Form_LogWindow.WriteError "Info: no references file in " & src_path
+            Form_LogWindow.WriteLine
         End If
     End If
     
     FileName = Dir$(obj_path & "*.bas")
     If Len(FileName) > 0 Then
-        Debug.Print VCS_String.VCS_PadRight("Importing " & obj_type_label & "...", 24);
+        Form_LogWindow.Append VCS_String.VCS_PadRight("Importing " & obj_type_label & "...", 24)
         SysCmd acSysCmdInitMeter, "Importing " & obj_type_label, 100
         obj_count = 0
         Do Until Len(FileName) = 0
@@ -72,7 +72,7 @@ Public Sub ImportObjTypeSource(ByVal obj_type As Variant, Optional ByVal ignoreV
         Loop
         
         SysCmd acSysCmdRemoveMeter
-        Debug.Print "[" & obj_count & "]"
+        Form_LogWindow.WriteLine "[" & obj_count & "]"
     End If
 End Sub
 
@@ -87,8 +87,8 @@ Public Sub ImportTableDef(ByVal FileName As String, Optional ByVal src_path As S
     obj_path = src_path & "tbldefs\"
     obj_name = Mid$(FileName, 1, InStrRev(FileName, ".") - 1)
     If DebugOutput Then
-        Debug.Print "  [debug] table " & obj_name;
-        Debug.Print
+        Form_LogWindow.Append "  [debug] table " & obj_name
+        Form_LogWindow.WriteLine
     End If
     
     ImportTable.VCS_ImportTableDef CStr(obj_name), obj_path, appInstance
@@ -107,10 +107,10 @@ Public Sub ImportAllTableDefs(Optional ByVal src_path As String, Optional ByRef 
     obj_path = src_path & "tbldefs\"
     FileName = Dir$(obj_path & "*.xml")
     If Len(FileName) > 0 Then
-        Debug.Print VCS_String.VCS_PadRight("Importing tabledefs...", 24);
+        Form_LogWindow.Append VCS_String.VCS_PadRight("Importing tabledefs...", 24)
         SysCmd acSysCmdInitMeter, "Importing tabledefs", 100
         obj_count = 0
-        If DebugOutput Then Debug.Print
+        If DebugOutput Then Form_LogWindow.WriteLine
         Do Until Len(FileName) = 0
             ImportTableDef FileName, src_path, appInstance
             obj_count = obj_count + 1
@@ -119,24 +119,24 @@ Public Sub ImportAllTableDefs(Optional ByVal src_path As String, Optional ByRef 
         Loop
         
         SysCmd acSysCmdRemoveMeter
-        Debug.Print "[" & obj_count & "]"
+        Form_LogWindow.WriteLine "[" & obj_count & "]"
     End If
 
     ' restore linked tables - we must have access to the remote store to import these!
     Dim searchPath As Object
     Set searchPath = FSO.GetFolder(obj_path)
     
-    Debug.Print VCS_String.VCS_PadRight("Importing Linked Tables", 24);
+    Form_LogWindow.Append VCS_String.VCS_PadRight("Importing Linked Tables", 24)
     SysCmd acSysCmdInitMeter, "Importing Linked tabledefs", searchPath.Files.Count
     obj_count = 0
-    If DebugOutput Then Debug.Print
+    If DebugOutput Then Form_LogWindow.WriteLine
     Dim foundFile As Object
     For Each foundFile In searchPath.Files
         If Right$(foundFile.Name, 5) = ".LNKD" Then
             obj_name = Mid$(foundFile.Name, 1, InStrRev(foundFile.Name, ".") - 1)
             If DebugOutput Then
-                Debug.Print "  [debug] table " & obj_name;
-                Debug.Print
+                Form_LogWindow.Append "  [debug] table " & obj_name
+                Form_LogWindow.WriteLine
             End If
             
             ImportTable.VCS_ImportLinkedTable CStr(obj_name), obj_path, appInstance
@@ -147,7 +147,7 @@ Public Sub ImportAllTableDefs(Optional ByVal src_path As String, Optional ByRef 
     Next foundFile
     
     SysCmd acSysCmdRemoveMeter
-    Debug.Print "[" & obj_count & "]"
+    Form_LogWindow.WriteLine "[" & obj_count & "]"
 End Sub
 
 Public Sub ImportAllTableData(Optional ByVal src_path As String, Optional ByRef appInstance As Application)
@@ -163,7 +163,7 @@ Public Sub ImportAllTableData(Optional ByVal src_path As String, Optional ByRef 
     obj_path = src_path & "tables\"
     FileName = Dir$(obj_path & "*.txt")
     If Len(FileName) > 0 Then
-        Debug.Print VCS_String.VCS_PadRight("Importing tables...", 24);
+        Form_LogWindow.Append VCS_String.VCS_PadRight("Importing tables...", 24)
         SysCmd acSysCmdInitMeter, "Importing tables", 100
         obj_count = 0
         Do Until Len(FileName) = 0
@@ -176,7 +176,7 @@ Public Sub ImportAllTableData(Optional ByVal src_path As String, Optional ByRef 
         Loop
         
         SysCmd acSysCmdRemoveMeter
-        Debug.Print "[" & obj_count & "]"
+        Form_LogWindow.WriteLine "[" & obj_count & "]"
     End If
 End Sub
 
@@ -192,7 +192,7 @@ Public Sub ImportAllTableDataMacros(Optional ByVal src_path As String, Optional 
     obj_path = src_path & "tbldef\"
     FileName = Dir$(obj_path & "*.dm")
     If Len(FileName) > 0 Then
-        Debug.Print VCS_String.VCS_PadRight("Importing Data Macros...", 24);
+        Form_LogWindow.Append VCS_String.VCS_PadRight("Importing Data Macros...", 24)
         SysCmd acSysCmdInitMeter, "Importing Data Macros", 100
         obj_count = 0
         Do Until Len(FileName) = 0
@@ -206,7 +206,7 @@ Public Sub ImportAllTableDataMacros(Optional ByVal src_path As String, Optional 
         Loop
         
         SysCmd acSysCmdRemoveMeter
-        Debug.Print "[" & obj_count & "]"
+        Form_LogWindow.WriteLine "[" & obj_count & "]"
     End If
 End Sub
 
@@ -235,7 +235,7 @@ Public Sub ImportAllSource(Optional ByVal ignoreVCS As Boolean = False, Optional
     FileName = Dir$(obj_path & "*.bas")
     
     If Len(FileName) > 0 Then
-        Debug.Print VCS_String.VCS_PadRight("Importing queries...", 24);
+        Form_LogWindow.Append VCS_String.VCS_PadRight("Importing queries...", 24)
         SysCmd acSysCmdInitMeter, "Importing queries", 100
         obj_count = 0
         Do Until Len(FileName) = 0
@@ -259,7 +259,7 @@ Public Sub ImportAllSource(Optional ByVal ignoreVCS As Boolean = False, Optional
         Loop
         
         SysCmd acSysCmdRemoveMeter
-        Debug.Print "[" & obj_count & "]"
+        Form_LogWindow.WriteLine "[" & obj_count & "]"
     End If
     
     ' restore table definitions
@@ -286,7 +286,7 @@ Public Sub ImportAllSource(Optional ByVal ignoreVCS As Boolean = False, Optional
     ImportProperties source_path, appInstance
     
     'import Print Variables
-    Debug.Print VCS_String.VCS_PadRight("Importing Print Vars...", 24);
+    Form_LogWindow.Append VCS_String.VCS_PadRight("Importing Print Vars...", 24)
     obj_count = 0
     
     obj_path = source_path & "reports\"
@@ -299,10 +299,10 @@ Public Sub ImportAllSource(Optional ByVal ignoreVCS As Boolean = False, Optional
         FileName = Dir$()
     Loop
     
-    Debug.Print "[" & obj_count & "]"
+    Form_LogWindow.WriteLine "[" & obj_count & "]"
     
     'import relations
-    Debug.Print VCS_String.VCS_PadRight("Importing Relations...", 24);
+    Form_LogWindow.Append VCS_String.VCS_PadRight("Importing Relations...", 24)
     obj_count = 0
     obj_path = source_path & "relations\"
     FileName = Dir$(obj_path & "*.txt")
@@ -313,7 +313,7 @@ Public Sub ImportAllSource(Optional ByVal ignoreVCS As Boolean = False, Optional
         FileName = Dir$()
     Loop
     
-    Debug.Print "[" & obj_count & "]"
+    Form_LogWindow.WriteLine "[" & obj_count & "]"
     DoEvents
-    Debug.Print "Done."
+    Form_LogWindow.WriteLine "<font color=green><strong>Done.</strong></font>"
 End Sub

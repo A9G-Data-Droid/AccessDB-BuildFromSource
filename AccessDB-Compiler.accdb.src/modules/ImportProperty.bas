@@ -32,7 +32,7 @@ Public Function ImportProperties(ByVal sourcePath As String, Optional ByRef appI
         Exit Function
     End If
     
-    Debug.Print VCS_String.VCS_PadRight("Importing Properties...", 24);
+    Form_LogWindow.Append VCS_String.VCS_PadRight("Importing Properties...", 24)
     
     Dim thisDB As Object
     Set thisDB = ThisProjectDB(appInstance)
@@ -70,7 +70,7 @@ ErrorHandler:
         ElseIf Err.Number = 3251 Then
             ' Operation is not supported for this type of object; means that this property cannot be set by code.
         Else
-            Debug.Print " Error: " & Err.Number & " " & Err.Description
+            Form_LogWindow.WriteError " Error: " & Err.Number & " " & Err.Description
         End If
         
         Err.Clear
@@ -79,7 +79,7 @@ ErrorHandler:
     
     On Error GoTo 0
     
-    Debug.Print "[" & propertyCount & "]"
+    Form_LogWindow.WriteLine "[" & propertyCount & "]"
     inputFile.Close
     Set inputFile = Nothing
     ImportProperties = True
@@ -119,7 +119,7 @@ Public Function GetProperty(ByVal propertyName As String, _
      
 Err_PropertyExists:
     If Err.Number <> PropertyNotFound Then
-        Debug.Print "Error getting property: " & propertyName & vbNewLine & Err.Number & " " & Err.Description
+        Form_LogWindow.WriteError "Error getting property: " & propertyName & vbNewLine & Err.Number & " " & Err.Description
     End If
     
     Err.Clear

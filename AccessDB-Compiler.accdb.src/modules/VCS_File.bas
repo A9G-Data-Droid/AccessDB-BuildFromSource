@@ -263,3 +263,17 @@ Public Function VCS_TempFile(Optional ByVal sPrefix As String = "VBA") As String
     If nRet <> 0 Then sFileName = Left$(sTmpName, InStr(sTmpName, vbNullChar) - 1)
     VCS_TempFile = sFileName
 End Function
+
+'---------------------------------------------------------------------------------------
+' Procedure : WriteFile
+' Author    : Adam Waller
+' Date      : 1/23/2019
+' Purpose   : Save string variable to text file.
+'---------------------------------------------------------------------------------------
+'
+Public Sub WriteFile(strContent As String, strPath As String, Optional blnUnicode As Boolean = False)
+    With FSO.CreateTextFile(strPath, True, blnUnicode)
+        .Write strContent
+        .Close
+    End With
+End Sub
