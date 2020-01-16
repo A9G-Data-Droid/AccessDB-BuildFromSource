@@ -58,7 +58,7 @@ Public Sub VCS_ImportPrintVars(ByVal obj_name As String, ByVal filePath As Strin
         DevModeString.RGB = DevModeExtra
         LSet DM = DevModeString
     Else
-        Debug.Print "Warning: PrtDevMode is null"
+        Form_LogWindow.WriteError "Warning: PrtDevMode is null"
         GoTo theEnd
     End If
   
@@ -84,7 +84,7 @@ Public Sub VCS_ImportPrintVars(ByVal obj_name As String, ByVal filePath As Strin
             Case "PaperWidth":      DM.intPaperWidth = varLine(1)
             Case "Scale":           DM.intScale = varLine(1)
             Case Else
-                Debug.Print "* Unknown print var: '" & varLine(0) & "'"
+                Form_LogWindow.WriteError "* Unknown print var: '" & varLine(0) & "'"
             End Select
         End If
     Loop

@@ -6,9 +6,9 @@ Begin Form
     RecordSelectors = NotDefault
     AutoCenter = NotDefault
     NavigationButtons = NotDefault
-    AllowDeletions = NotDefault
     DefaultView =0
     ScrollBars =0
+    ViewsAllowed =1
     TabularFamily =49
     BorderStyle =3
     PictureAlignment =2
@@ -17,10 +17,10 @@ Begin Form
     GridY =24
     Width =11700
     ItemSuffix =44
-    Left =32025
-    Top =1335
-    Right =-14206
-    Bottom =15600
+    Left =6015
+    Top =1890
+    Right =20490
+    Bottom =14100
     DatasheetGridlinesColor =12632256
     RecSrcDt = Begin
         0xfd4ee20d2d67e540
@@ -32,6 +32,8 @@ Begin Form
         0xa0050000a0050000a0050000a005000000000000201c0000e010000001000000 ,
         0x010000006801000000000000a10700000100000001000000
     End
+    OnLoad ="[Event Procedure]"
+    AllowDatasheetView =0
     FilterOnLoad =0
     ShowPageMargins =0
     AllowLayoutView =0
@@ -356,46 +358,6 @@ Begin Form
                     QuickStyleMask =-1
                     Overlaps =1
                 End
-                Begin CommandButton
-                    OverlapFlags =85
-                    Left =240
-                    Top =2220
-                    Width =1800
-                    TabIndex =6
-                    ForeColor =16777215
-                    Name ="LoadVCS"
-                    Caption ="Load Version Control"
-                    OnClick ="[Event Procedure]"
-                    FontName ="Segoe UI"
-                    ControlTipText ="Requires 'Version Control.accda'"
-                    LeftPadding =105
-                    TopPadding =60
-                    RightPadding =120
-                    BottomPadding =165
-
-                    LayoutCachedLeft =240
-                    LayoutCachedTop =2220
-                    LayoutCachedWidth =2040
-                    LayoutCachedHeight =2580
-                    ForeThemeColorIndex =1
-                    UseTheme =1
-                    Gradient =2
-                    BackColor =10855845
-                    BackThemeColorIndex =6
-                    BorderColor =10855845
-                    BorderThemeColorIndex =6
-                    HoverColor =12040119
-                    HoverThemeColorIndex =6
-                    HoverTint =80.0
-                    PressedColor =8684676
-                    PressedThemeColorIndex =6
-                    PressedShade =80.0
-                    HoverForeThemeColorIndex =1
-                    PressedForeThemeColorIndex =1
-                    Shadow =-1
-                    QuickStyle =39
-                    QuickStyleMask =-1
-                End
             End
         End
     End
@@ -415,7 +377,10 @@ Option Explicit
 '       https://github.com/joyfullservice/msaccess-vcs-integration
 '       https://github.com/timabell/msaccess-vcs-integration
 '--------------------------------------------------------------------
-Private VCSLoaded As Boolean
+
+Private Sub Form_Load()
+    HideAccessGui
+End Sub
 
 ' Point to a folder that was created by an export command
 Private Sub SelectSourceFolder_Click()
@@ -467,10 +432,4 @@ Private Sub cmdOK_Click()
 ErrorHandler:
     If Err.Number <> 0 Then MsgBox Err.Description
     
-End Sub
-
-' Load or Unload Version Control Add-in
-Private Sub LoadVCS_Click()
-    VCSLoaded = Not VCSLoaded
-    InitializeVersionControlSystem VCSLoaded
 End Sub

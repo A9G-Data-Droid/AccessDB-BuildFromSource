@@ -23,7 +23,7 @@ Public Function VCS_ImportReferences(ByVal obj_path As String, Optional ByRef ap
     Set InFile = FSO.OpenTextFile(obj_path & FileName, iomode:=ForReading, create:=False, Format:=TristateFalse)
     
     Dim refCount As Long
-    Debug.Print VCS_String.VCS_PadRight("Importing References...", 24);
+    Form_LogWindow.Append VCS_String.VCS_PadRight("Importing References...", 24)
     On Error GoTo failed_guid
     Do Until InFile.AtEndOfStream
         line = InFile.ReadLine
@@ -49,7 +49,7 @@ go_on:
     
     On Error GoTo 0
     VCS_ImportReferences = True
-    Debug.Print "[" & refCount & "]"
+    Form_LogWindow.WriteLine "[" & refCount & "]"
     InFile.Close
     
 failed_guid:

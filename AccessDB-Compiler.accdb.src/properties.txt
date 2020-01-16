@@ -19,7 +19,7 @@ Show Navigation Pane Search Bar?1?4
 ProjVer?141?3
 HasOfflineLists?70?3
 UseMDIMode?0?2
-ShowDocumentTabs?True?1
+ShowDocumentTabs?False?1
 Picture Property Storage Format?0?4
 WebDesignMode?0?2
 CheckTruncatedNumFields?1?4
@@ -39,7 +39,7 @@ AllowSpecialKeys?True?1
 UseAppIconForFrmRpt?False?1
 AllowDatasheetSchema?True?1
 DesignWithData?False?1
-StartUpForm?CompilerGUI?10
+StartUpForm?LogWindow?10
 Show Values Limit?1000?4
 Show Values in Indexed?1?4
 Show Values in Non-Indexed?1?4
