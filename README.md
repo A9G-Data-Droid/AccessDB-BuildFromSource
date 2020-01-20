@@ -22,7 +22,7 @@ Currently imports:
 
 # WARNING:
 
-  In my testing I have found that the size of the compiled database is smaller than the original database where the source was exported from, even after a compact\repair. At this time I do not know what the source of the size mismatch is. I am not sure if the missing data is needed or not. It will take some time and testing to see if anything is missing from the new DB.
+  In my testing I have found that the size of the compiled database is smaller than the original database where the source was exported from, even after a compact\repair. At this time I do not know what the source of the size mismatch is. I have done a full database documenter export all to text on a source application DB and the subsequently compiled DB. The text exports are strikingly similar in size and content. There are some inconsistancies in the export format that make comparison difficult like lines out of order but with correct content. The resultant application appears to work just fine. Additional testing is required to ensure that nothing is missing.
 
 # Testers wanted!
 
