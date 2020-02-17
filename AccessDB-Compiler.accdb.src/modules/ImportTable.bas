@@ -68,6 +68,7 @@ Err_CreateLinkedTable_Fin:
     For Each Field In Split(Fields, ";+")
         sql = sql & "[" & Field & "]" & ","
     Next
+    
     'remove extraneous comma
     sql = Left$(sql, Len(sql) - 1)
     
@@ -85,6 +86,14 @@ ErrorHandler:
     End If
 End Sub
 
+
+
+Public Function TableExists(ByVal tableName As String) As Boolean
+    TableExists = Not IsNull(DLookup("Name", "MSysObjects", "Name='" & tableName & "'"))
+End Function
+
+
+
 ' Import Table Definition
 Public Sub VCS_ImportTableDef(ByVal tblName As String, ByVal directory As String, Optional ByRef appInstance As Application)
     If appInstance Is Nothing Then Set appInstance = Application.Application
@@ -93,16 +102,12 @@ Public Sub VCS_ImportTableDef(ByVal tblName As String, ByVal directory As String
     Dim tbl As Object
     Dim prefix As String
     
-    Dim thisDB As Database
-    Set thisDB = appInstance.CurrentDb
+    Dim thisDb As Database
+    Set thisDb = appInstance.CurrentDb
     
     ' Drop table first.
-    On Error Resume Next
-    Set tbl = thisDB.TableDefs(tblName)
-    On Error GoTo 0
-
-    If Not tbl Is Nothing Then
-        thisDB.Execute "Drop Table [" & tblName & "]"
+    If TableExists(tblName) Then
+        thisDb.Execute "Drop Table [" & tblName & "]"
     End If
     
     filePath = directory & tblName & ".xml"
@@ -118,52 +123,88 @@ End Sub
 Public Sub ImportTableData(tblName As String, obj_path As String, Optional ByRef appInstance As Application)
     If appInstance Is Nothing Then Set appInstance = Application.Application
     
-    Dim Db As Object ' DAO.Database
-    Dim rs As Object ' DAO.Recordset
-    Dim fieldObj As Object ' DAO.Field
-    Dim InFile As Object
-    Dim c As Long
-    Dim buf As String
-    Dim Values() As String
-    Dim Value As Variant
+    Dim thisDb As Object        ' DAO.Database
+    Dim tableRecords As Object  ' DAO.Recordset
+    Dim thisField As Object     ' DAO.Field
+    Dim tempFile As Object      ' FSO.File
+    Dim currentRecord As Long
+    Dim lineBuffer As String
+    Dim fieldRecords() As String
+    Dim thisRecord As Variant
     
     Dim tempFileName As String
-    tempFileName = VCS_File.VCS_TempFile()
-    VCS_File.VCS_ConvertUtf8Ucs2 obj_path & tblName & ".txt", tempFileName
-    ' open file for reading with Create=False, Unicode=True (USC-2 Little Endian format)
-    Set InFile = FSO.OpenTextFile(tempFileName, ForReading, False, TristateTrue)
-    Set Db = appInstance.CurrentDb
+    tempFileName = obj_path & tblName & ".txt" 'VCS_File.VCS_TempFile()
+
+    ' Open file for reading with                              Create=False, Unicode=True (USC-2 Little Endian format)
+    Set tempFile = FSO.OpenTextFile(tempFileName, ForReading, False, TristateFalse)
+        
+    Set thisDb = appInstance.CurrentDb
+    thisDb.Execute "DELETE FROM [" & tblName & "]"
+    Set tableRecords = thisDb.OpenRecordset(tblName)
+    
     On Error GoTo ErrorHandler
-    Db.Execute "DELETE FROM [" & tblName & "]"
-    Set rs = Db.OpenRecordset(tblName)
-    buf = InFile.ReadLine()
-    Do Until InFile.AtEndOfStream
-        buf = InFile.ReadLine()
-        If Len(Trim$(buf)) > 0 Then
-            Values = Split(buf, vbTab)
-            c = 0
-            rs.AddNew
-            For Each fieldObj In rs.Fields
+    
+    lineBuffer = tempFile.ReadLine  'Text(adReadLine)  ' Discard Header Line
+    Do Until tempFile.AtEndOfStream   'EOS
+        lineBuffer = tempFile.ReadLine  'Text(adReadLine)
+        If Len(Trim$(lineBuffer)) > 0 Then
+            fieldRecords = Split(lineBuffer, vbTab)
+            currentRecord = 0
+            tableRecords.AddNew
+            For Each thisField In tableRecords.Fields
                 DoEvents
-                Value = Values(c)
-                If Len(Value) = 0 Then
-                    Value = Null
-                Else
-                    Value = Replace(Value, "\t", vbTab)
-                    Value = Replace(Value, "\n", vbCrLf)
-                    Value = Replace(Value, "\\", "\")
+                thisRecord = fieldRecords(currentRecord)
+                Dim destinationField As Object
+                Set destinationField = tableRecords.Fields(thisField.Name)
+                If Len(thisRecord) = 0 Then
+                    If destinationField.Required Then
+                        Select Case destinationField.Type
+                        Case 10 Or 12 Or 18  ' String type
+                            thisRecord = vbNullString
+                        Case Else  ' Numeric type
+                            thisRecord = 0
+                        End Select
+                    Else  ' Not required can be null
+                        thisRecord = Null
+                    End If
+                ElseIf IsNumeric(thisRecord) Then
+                ' Don't process numbers
+                Else ' Convert symbols back to their original state, as exported.
+                    thisRecord = Replace(thisRecord, "\t", vbTab)
+                    thisRecord = Replace(thisRecord, "\n", vbCrLf)
+                    thisRecord = Replace(thisRecord, "\\", "\")
                 End If
-                rs(fieldObj.Name) = Value
-                c = c + 1
+                
+                ' Explicit data type conversion avoids Error: 3421 Data type conversion error.
+                Select Case destinationField.Type
+                Case dbBoolean
+                    destinationField.Value = CBool(thisRecord)
+                Case dbDate Or dbTimeStamp
+                    destinationField.Value = CDate(thisRecord)
+                Case Else
+                    destinationField.Value = thisRecord
+                End Select
+                                
+                currentRecord = currentRecord + 1
             Next
-            rs.Update
+            
+            tableRecords.Update
         End If
     Loop
     
 ErrorHandler:
-    rs.Close
-    InFile.Close
-    FSO.DeleteFile tempFileName
+    If Err.Number > 0 Then 'TODO: handle specific error
+        Form_LogWindow.WriteError vbCrLf & "Failed to Import Table Data: """ & tblName & """" & "<br/>" & vbCrLf & _
+            "Field: " & currentRecord & "<br/>" & vbCrLf & _
+            "Field Value: " & thisRecord & "<br/>" & vbCrLf & _
+            "Line Buffer: " & lineBuffer & "<br/>" & vbCrLf & _
+            "Error: " & Err.Number & " " & Err.Description
+        
+        Resume Next
+    End If
+    
+    tableRecords.Close
+    tempFile.Close
 End Sub
 
 ' Check if the file in the connection string is valid

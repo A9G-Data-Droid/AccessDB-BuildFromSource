@@ -206,12 +206,12 @@ Public Function VCS_UsingUcs2(Optional ByRef appInstance As Application) As Bool
     Dim obj_type_split() As String
     Dim obj_type_name As String
     Dim obj_type_num As Integer
-    Dim thisDB As Database
-    Set thisDB = appInstance.CurrentDb
+    Dim thisDb As Database
+    Set thisDb = appInstance.CurrentDb
     
-    If thisDB.QueryDefs.Count > 0 Then
+    If thisDb.QueryDefs.Count > 0 Then
         obj_type_num = acQuery
-        obj_name = thisDB.QueryDefs(0).Name
+        obj_name = thisDb.QueryDefs(0).Name
     Else
         For Each obj_type In Split( _
             "Forms|" & acForm & "," & _
@@ -223,8 +223,8 @@ Public Function VCS_UsingUcs2(Optional ByRef appInstance As Application) As Bool
             obj_type_split = Split(obj_type, "|")
             obj_type_name = obj_type_split(0)
             obj_type_num = Val(obj_type_split(1))
-            If thisDB.Containers(obj_type_name).Documents.Count > 0 Then
-                obj_name = thisDB.Containers(obj_type_name).Documents(0).Name
+            If thisDb.Containers(obj_type_name).Documents.Count > 0 Then
+                obj_name = thisDb.Containers(obj_type_name).Documents(0).Name
                 Exit For
             End If
         Next

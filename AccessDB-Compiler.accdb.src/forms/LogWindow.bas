@@ -12,8 +12,8 @@ Begin Form
     Width =15780
     DatasheetFontHeight =11
     ItemSuffix =5
-    Right =23970
-    Bottom =12990
+    Right =25320
+    Bottom =14625
     DatasheetGridlinesColor =15132391
     RecSrcDt = Begin
         0xb31cfbeccd68e540
@@ -369,7 +369,7 @@ End Sub
 Public Sub SaveLogFile()
     Dim saveAsPath As String
     saveAsPath = GetSaveasFile(VCS_Dir.VCS_ProjectPath() & "CompilerLog.htm", "Select name for log file:")
-    If Not saveAsPath = vbNullString Then WriteFile logWindowText, saveAsPath
+    If Not saveAsPath = vbNullString Then WriteFile Me.LogView.Value, saveAsPath, True
 End Sub
 
 Private Sub ShowAccess_Click()

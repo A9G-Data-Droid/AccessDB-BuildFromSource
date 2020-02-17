@@ -34,8 +34,8 @@ Public Function ImportProperties(ByVal sourcePath As String, Optional ByRef appI
     
     Form_LogWindow.Append VCS_String.VCS_PadRight("Importing Properties...", 24)
     
-    Dim thisDB As Object
-    Set thisDB = ThisProjectDB(appInstance)
+    Dim thisDb As Object
+    Set thisDb = ThisProjectDB(appInstance)
    
     Dim inputFile As Object
     Set inputFile = FSO.OpenTextFile(sourcePath & propertiesFile, ForReading)
@@ -55,7 +55,7 @@ Public Function ImportProperties(ByVal sourcePath As String, Optional ByRef appI
             propertyValue = recordUnit(1)
             propertyType = recordUnit(2)
             
-            SetProperty propertyName, propertyValue, thisDB, propertyType
+            SetProperty propertyName, propertyValue, thisDb, propertyType
         End If
     Loop
     
@@ -89,31 +89,31 @@ End Function
 ' SetProperty() requires either propertyType is set explicitly OR
 '   propertyValue has a valid value and type for a new property to be created.
 Public Sub SetProperty(ByVal propertyName As String, ByVal propertyValue As Variant, _
-                       Optional ByRef thisDB As Object, _
+                       Optional ByRef thisDb As Object, _
                        Optional ByVal propertyType As Integer = -1)
                        
-    If thisDB Is Nothing Then Set thisDB = ThisProjectDB
+    If thisDb Is Nothing Then Set thisDb = ThisProjectDB
     
     Dim newProperty As Property
-    Set newProperty = GetProperty(propertyName, thisDB)
+    Set newProperty = GetProperty(propertyName, thisDb)
     If Not newProperty Is Nothing Then
         If newProperty.Value <> propertyValue Then newProperty.Value = propertyValue
     Else ' Property not found
-        If propertyType = -1 Then propertyType = DBVal(varType(propertyValue)) ' Guess the type (Good luck)
-        Set newProperty = thisDB.CreateProperty(propertyName, propertyType, propertyValue)
-        thisDB.Properties.Append newProperty
+        If propertyType = -1 Then propertyType = DAOType(varType(propertyValue)) ' Guess the type
+        Set newProperty = thisDb.CreateProperty(propertyName, propertyType, propertyValue)
+        thisDb.Properties.Append newProperty
     End If
 End Sub
 
 ' Returns nothing upon Error
 Public Function GetProperty(ByVal propertyName As String, _
-                            Optional ByRef thisDB As Object) As Property
+                            Optional ByRef thisDb As Object) As Property
                             
     Const PropertyNotFound As Integer = 3270
-    If thisDB Is Nothing Then Set thisDB = ThisProjectDB
+    If thisDb Is Nothing Then Set thisDb = ThisProjectDB
     
     On Error GoTo Err_PropertyExists
-    Set GetProperty = thisDB.Properties(propertyName)
+    Set GetProperty = thisDb.Properties(propertyName)
 
     Exit Function
      
@@ -125,12 +125,28 @@ Err_PropertyExists:
     Err.Clear
 End Function
 
-'   HERE BE DRAGONS
-' Return db property type that closely matches VBA varible type
-Private Function DBVal(ByVal intVBVal As Integer) As Integer
-    Const TypeVBToDB As String = "\2|3\3|4\4|6\5|7\6|5" & _
-                                 "\7|8\8|10\11|1\14|20\17|2"
-    Dim intX As Integer
-    intX = InStr(1, TypeVBToDB, "\" & intVBVal & "|")
-    DBVal = Val(Mid$(TypeVBToDB, intX + Len(intVBVal) + 2))
+' Return DataTypeEnum enumeration (DAO) property type that closely matches VBA varible type passed in
+'   https://docs.microsoft.com/en-us/office/client-developer/access/desktop-database-reference/datatypeenum-enumeration-dao
+Private Function DAOType(ByVal VBAType As Integer) As Integer
+    ' Handle arrays
+    If VBAType > 8192 Then VBAType = VBAType - 8192
+
+    Select Case VBAType
+        Case vbInteger: DAOType = dbInteger
+        Case vbLong: DAOType = dbLong
+        Case vbSingle: DAOType = dbSingle
+        Case vbDouble: DAOType = dbDouble
+        Case vbCurrency: DAOType = dbCurrency
+        Case vbDate: DAOType = dbDate
+        Case vbString: DAOType = dbText
+        Case vbObject: DAOType = dbAttachment
+        Case vbError: DAOType = dbText
+        Case vbBoolean: DAOType = dbBoolean
+        Case vbVariant: DAOType = dbText
+        Case vbDataObject: DAOType = dbLongBinary
+        Case vbDecimal: DAOType = dbDecimal
+        Case vbByte: DAOType = dbByte
+        Case vbLongLong: DAOType = dbBigInt
+        Case Else: DAOType = dbText
+    End Select
 End Function

@@ -308,7 +308,7 @@ Public Sub ImportAllSource(Optional ByVal ignoreVCS As Boolean = False, Optional
     FileName = Dir$(obj_path & "*.txt")
     Do Until Len(FileName) = 0
         DoEvents
-        ImportRelations.VCS_ImportRelation obj_path & FileName, appInstance
+        ImportRelations.ImportRelation obj_path & FileName, appInstance
         obj_count = obj_count + 1
         FileName = Dir$()
     Loop
