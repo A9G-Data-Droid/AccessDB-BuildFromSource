@@ -8,7 +8,7 @@ Option Explicit
 '       https://github.com/joyfullservice/msaccess-vcs-integration
 '       https://github.com/timabell/msaccess-vcs-integration
 '--------------------------------------------------------------------
-Const Version = "0.3.0"
+Const Version = "0.4.0"
 
 ' Keep a persistent reference to file system object after initializing version control.
 Private m_FSO As Object
@@ -35,9 +35,7 @@ Public Sub Build(ByVal sourceFolder As String, ByVal outputFile As String, Optio
         .WriteLine " Source Folder:"
         .WriteLine sourceFolder
     End With
-    
-    If overwrite Then DestoryDB outputFile
-    
+       
     Dim newApp As Application
     Set newApp = New Access.Application
     newApp.NewCurrentDatabase outputFile
@@ -66,30 +64,6 @@ ErrorHandler:
     End If
 
     newApp.Quit acQuitSaveAll
-End Sub
-
-' Used by overwrite to delete the DB before it is created.
-Public Sub DestoryDB(ByVal dbFullPath As String)
-    On Error GoTo ErrorHandler
-    
-    Dim theFile As Object
-    Set theFile = FSO.GetFile(dbFullPath)
-    theFile.Delete
-    Form_LogWindow.WriteLine "Deleted DB: " & dbFullPath
-    
-ErrorHandler:
-    If Err.Number = 53 Then
-        ' TODO: Handle a filename given with no extension
-        Dim thisFileName As String
-        thisFileName = FSO.GetFileName(dbFullPath)
-        If InStr(1, thisFileName, ".") = 0 Then
-            ' This is too dangerous. Let's not.
-            thisFileName = Dir(dbFullPath & ".*")
-        End If
-    ElseIf Err.Number > 0 Then
-        Form_LogWindow.WriteError Err.Number & " " & Err.Description
-        Debug.Assert Err.Number = 0
-    End If
 End Sub
 
 Public Sub HideAccessGui()
