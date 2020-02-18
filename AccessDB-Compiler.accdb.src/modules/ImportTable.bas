@@ -13,9 +13,9 @@ Public Sub VCS_ImportLinkedTable(ByVal tblName As String, ByRef obj_path As Stri
     Set Db = appInstance.CurrentDb
     
     Dim tempFilePath As String
-    tempFilePath = VCS_File.VCS_TempFile()
+    tempFilePath = FileAccess.GetTempFile()
     
-    VCS_ConvertUtf8Ucs2 obj_path & tblName & ".LNKD", tempFilePath
+    ConvertUtf8Ucs2 obj_path & tblName & ".LNKD", tempFilePath
     ' open file for reading with Create=False, Unicode=True (USC-2 Little Endian format)
     Set InFile = FSO.OpenTextFile(tempFilePath, iomode:=ForReading, create:=False, Format:=TristateTrue)
     
@@ -133,7 +133,7 @@ Public Sub ImportTableData(tblName As String, obj_path As String, Optional ByRef
     Dim thisRecord As Variant
     
     Dim tempFileName As String
-    tempFileName = obj_path & tblName & ".txt" 'VCS_File.VCS_TempFile()
+    tempFileName = obj_path & tblName & ".txt" 'VCS_File.GetTempFile()
 
     ' Open file for reading with                              Create=False, Unicode=True (USC-2 Little Endian format)
     Set tempFile = FSO.OpenTextFile(tempFileName, ForReading, False, TristateFalse)

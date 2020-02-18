@@ -8,17 +8,12 @@ Option Explicit
 '       https://github.com/joyfullservice/msaccess-vcs-integration
 '       https://github.com/timabell/msaccess-vcs-integration
 '--------------------------------------------------------------------
-Const Version = "0.4.0"
+Const Version As String = "0.5.0"
 
-' Keep a persistent reference to file system object after initializing version control.
-Private m_FSO As Object
-Public Function FSO() As Object
-    If m_FSO Is Nothing Then Set m_FSO = CreateObject("Scripting.FileSystemObject")
-    Set FSO = m_FSO
-End Function
+
 
 ' This is the main entry point called by the Compiler GUI
-Public Sub Build(ByVal sourceFolder As String, ByVal outputFile As String, Optional ByVal overwrite As Boolean = False)
+Public Sub Build(ByVal sourceFolder As String, ByVal outputFile As String)
     Const cstrSpacer As String = "-------------------------------"
     Dim startTime As Single
     startTime = Timer
@@ -66,6 +61,8 @@ ErrorHandler:
     newApp.Quit acQuitSaveAll
 End Sub
 
+
+
 Public Sub HideAccessGui()
     With DoCmd
         .ShowToolbar "Ribbon", acToolbarNo
@@ -73,6 +70,8 @@ Public Sub HideAccessGui()
         .RunCommand acCmdWindowHide
     End With
 End Sub
+
+
 
 Public Sub ShowAccessGui()
     With DoCmd

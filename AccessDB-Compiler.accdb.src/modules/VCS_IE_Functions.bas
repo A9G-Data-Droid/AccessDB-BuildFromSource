@@ -19,7 +19,7 @@ Public Sub VCS_ExportObject(ByVal obj_type_num As Integer, ByVal obj_name As Str
     VCS_Dir.VCS_MkDirIfNotExist Left$(file_path, InStrRev(file_path, "\"))
     If Ucs2Convert Then
         Dim tempFileName As String
-        tempFileName = VCS_File.VCS_TempFile()
+        tempFileName = FileAccess.GetTempFile()
         appInstance.SaveAsText obj_type_num, obj_name, tempFileName
         If obj_type_num = acModule Then
             With FSO.OpenTextFile(tempFileName, ForAppending, False, TristateTrue)
@@ -27,7 +27,7 @@ Public Sub VCS_ExportObject(ByVal obj_type_num As Integer, ByVal obj_name As Str
             End With
         End If
         
-        VCS_File.ConvertUcs2Utf8 tempFileName, file_path
+        FileAccess.ConvertUcs2Utf8 tempFileName, file_path
     Else
         appInstance.SaveAsText obj_type_num, obj_name, file_path
         If obj_type_num = acModule Then
@@ -48,8 +48,8 @@ Public Sub VCS_ImportObject(ByVal obj_type_num As Integer, ByVal obj_name As Str
     
     If Ucs2Convert Then
         Dim tempFileName As String
-        tempFileName = VCS_File.VCS_TempFile()
-        VCS_File.VCS_ConvertUtf8Ucs2 file_path, tempFileName
+        tempFileName = FileAccess.GetTempFile()
+        FileAccess.ConvertUtf8Ucs2 file_path, tempFileName
         appInstance.LoadFromText obj_type_num, obj_name, tempFileName
         
         FSO.DeleteFile tempFileName

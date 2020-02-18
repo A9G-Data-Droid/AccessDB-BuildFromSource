@@ -26,8 +26,8 @@ Public Sub ImportQueryFromSQL(ByVal obj_name As String, ByVal file_path As Strin
     
     If Ucs2Convert Then
         Dim tempFileName As String
-        tempFileName = VCS_File.VCS_TempFile()
-        VCS_File.VCS_ConvertUtf8Ucs2 file_path, tempFileName
+        tempFileName = FileAccess.GetTempFile()
+        FileAccess.ConvertUtf8Ucs2 file_path, tempFileName
         theDatabase.QueryDefs.Delete (obj_name)
         theDatabase.CreateQueryDef obj_name, readFromTextFile(file_path)
         

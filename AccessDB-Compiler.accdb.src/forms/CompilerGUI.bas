@@ -17,10 +17,10 @@ Begin Form
     GridY =24
     Width =11700
     ItemSuffix =44
-    Left =6015
-    Top =1890
-    Right =20490
-    Bottom =14100
+    Left =-28306
+    Top =4200
+    Right =-16606
+    Bottom =7065
     DatasheetGridlinesColor =12632256
     RecSrcDt = Begin
         0xfd4ee20d2d67e540
@@ -427,7 +427,7 @@ Private Sub cmdOK_Click()
 
     If Me.Dirty Then Me.Dirty = False
     
-    Make.Build Me.SourceFolderPath.Value, Me.OutputFilePath.Value, Me.OverwriteFlag.Value
+    Make.Build Me.SourceFolderPath.Value, Me.OutputFilePath.Value
 
 ErrorHandler:
     If Err.Number <> 0 Then MsgBox Err.Description

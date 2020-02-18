@@ -2,10 +2,10 @@ Option Compare Database
 Option Explicit
 
 ' Turn on to get additional debug messages in your output.
-Public Const DebugOutput = False
+Public Const DebugOutput As Boolean = False
 
 'export/import all Queries as plain SQL text
-Const HandleQueriesAsSQL = False
+Const HandleQueriesAsSQL As Boolean = False
 
 Public Function VCS_SourcePath() As String
     VCS_SourcePath = VCS_Dir.VCS_ProjectPath() & "source\"
@@ -26,7 +26,7 @@ Public Function ImportObjType(ByVal FileName As String, ByVal obj_type_label As 
     If obj_type_label = "modules" Then
         ucs2 = False
     Else
-        ucs2 = VCS_File.VCS_UsingUcs2(appInstance)
+        ucs2 = FileAccess.UsingUcs2(appInstance)
     End If
 
     VCS_IE_Functions.VCS_ImportObject obj_type_num, obj_name, obj_path & FileName, ucs2, appInstance
@@ -38,14 +38,12 @@ Public Sub ImportObjTypeSource(ByVal obj_type As Variant, Optional ByVal ignoreV
     
     Dim obj_type_split() As String
     Dim obj_type_label As String
-    Dim obj_type_num As Integer
+    Dim obj_type_num As Long
     Dim obj_path As String
     Dim obj_name As String
-    Dim obj_count As Integer
+    Dim obj_count As Long
     Dim FileName As String
-   
-    'InitVCS_UsingUcs2
-    
+      
     If src_path = vbNullString Then src_path = VCS_SourcePath
     
     obj_type_split = Split(obj_type, "|")
@@ -223,8 +221,6 @@ Public Sub ImportAllSource(Optional ByVal ignoreVCS As Boolean = False, Optional
     Dim obj_name As String
     Dim appendOnly As Boolean
 
-    'InitVCS_UsingUcs2
-
     If source_path = vbNullString Then source_path = VCS_SourcePath
     If Not FSO.FolderExists(source_path) Then
         MsgBox "No source found at:" & vbCrLf & source_path, vbExclamation, "Import failed"
@@ -246,10 +242,12 @@ Public Sub ImportAllSource(Optional ByVal ignoreVCS As Boolean = False, Optional
                 ImportQuery.ImportQueryFromSQL obj_name, obj_path & FileName, False, appInstance.CurrentDb
             Else
                 Dim tempFilePath As String
-                tempFilePath = VCS_File.VCS_TempFile()
-                VCS_IE_Functions.VCS_ImportObject acQuery, obj_name, obj_path & FileName, VCS_File.VCS_UsingUcs2, appInstance
-                VCS_IE_Functions.VCS_ExportObject acQuery, obj_name, tempFilePath, VCS_File.VCS_UsingUcs2, appInstance
-                VCS_IE_Functions.VCS_ImportObject acQuery, obj_name, tempFilePath, VCS_File.VCS_UsingUcs2, appInstance
+                tempFilePath = FileAccess.GetTempFile()
+                Dim isUsingUCS As Boolean
+                isUsingUCS = FileAccess.UsingUcs2
+                VCS_IE_Functions.VCS_ImportObject acQuery, obj_name, obj_path & FileName, isUsingUCS, appInstance
+                VCS_IE_Functions.VCS_ExportObject acQuery, obj_name, tempFilePath, isUsingUCS, appInstance
+                VCS_IE_Functions.VCS_ImportObject acQuery, obj_name, tempFilePath, isUsingUCS, appInstance
                 VCS_Dir.VCS_DelIfExist tempFilePath
             End If
             

@@ -12,7 +12,7 @@ Public Function GetOpenFile(Optional ByVal startPath As String = vbNullString, _
                             Optional ByVal filterName As String = "All Files (*.*)", _
                             Optional ByVal filterString As String = "*.*") As String
     
-    Const msoFileDialogOpen = 1
+    Const msoFileDialogOpen As Long = 1
     Dim filePicker As Object
     Set filePicker = Application.FileDialog(msoFileDialogOpen)
     With filePicker
@@ -35,7 +35,7 @@ Public Function GetFile(Optional ByVal startPath As String = vbNullString, _
                         Optional ByVal filterName As String = "All Files (*.*)", _
                         Optional ByVal filterString As String = "*.*") As String
          
-    Const msoFileDialogFilePicker = 3
+    Const msoFileDialogFilePicker As Long = 3
     Dim filePicker As Object
     Set filePicker = Application.FileDialog(msoFileDialogFilePicker)
     With filePicker
@@ -52,7 +52,7 @@ End Function
 Public Function BrowseFolder(Optional ByVal startPath As String = vbNullString, _
                              Optional ByVal titleForDialog As String = "Select a folder.") As String
                             
-    Const msoFileDialogFolderPicker = 4
+    Const msoFileDialogFolderPicker As Long = 4
     Dim folderPicker As Object
     Set folderPicker = Application.FileDialog(msoFileDialogFolderPicker)
     With folderPicker
@@ -70,7 +70,7 @@ End Function
 Public Function GetSaveasFile(Optional ByVal startPath As String = vbNullString, _
                               Optional ByVal titleForDialog As String = "Please choose an Access Database...") As String
     
-    Const msoFileDialogSaveAs = 2
+    Const msoFileDialogSaveAs As Long = 2
     Dim filePicker As Object
     Set filePicker = Application.FileDialog(msoFileDialogSaveAs)
     With filePicker
