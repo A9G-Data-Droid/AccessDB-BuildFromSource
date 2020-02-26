@@ -2,14 +2,14 @@
 Beginning Export of all Source
 AccessDB-Compiler.accdb
 VCS Version 1.2.0.19
-2/26/2020 1:01:10 PM
+2/26/2020 1:02:58 PM
 -------------------------------
 Exporting queries...    
 [0]
 -------------------------------
 Exporting forms...      
   CompilerGUI
-    Sanitized in 0.02 seconds.
+    Sanitized in 0.03 seconds.
   LogWindow
     Sanitized in 0.02 seconds.
 [2]
