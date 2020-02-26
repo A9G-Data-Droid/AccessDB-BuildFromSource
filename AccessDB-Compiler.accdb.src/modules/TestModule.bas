@@ -43,15 +43,25 @@ Public Sub TestUCS2toUTF8RoundTrip()
     Dim tempFileName As String
     tempFileName = GetTempFile()
     
+    Dim UCStoUCS As String
+    Dim UCStoUTF As String
+    Dim UTFtoUTF As String
+    Dim UTFtoUCS As String
+    UCStoUCS = tempFileName & "UCS-2toUCS-2"
+    UCStoUTF = tempFileName & "UCS-2toUTF-8"
+    UTFtoUTF = tempFileName & "UTF-8toUTF-8"
+    UTFtoUCS = tempFileName & "UTF-8toUCS-2"
+    
+    ' Use temporary query to export example file
     CurrentDb.CreateQueryDef queryName, "SELECT * FROM TEST WHERE TESTING=TRUE"
     Application.SaveAsText acQuery, queryName, tempFileName
     CurrentDb.QueryDefs.Delete queryName
-    
+        
     'Act:
-    ConvertUtf8Ucs2 tempFileName, tempFileName & "UCS2UCS"
-    ConvertUcs2Utf8 tempFileName & "UCS2UCS", tempFileName & "UTF8"
-    ConvertUcs2Utf8 tempFileName & "UTF8", tempFileName & "UTF82UTF8"
-    ConvertUtf8Ucs2 tempFileName & "UTF82UTF8", tempFileName & "UTF82UCS"
+    ConvertUtf8Ucs2 tempFileName, UCStoUCS
+    ConvertUcs2Utf8 UCStoUCS, UCStoUTF
+    ConvertUcs2Utf8 UCStoUTF, UTFtoUTF
+    ConvertUtf8Ucs2 UTFtoUTF, UTFtoUCS
     
     ' Read original export
     Dim originalExport As String
@@ -62,10 +72,17 @@ Public Sub TestUCS2toUTF8RoundTrip()
     
     ' Read final file that went through all permutations of conversion
     Dim finalFile As String
-    With FSO.OpenTextFile(tempFileName & "UTF82UCS", , , TristateTrue)
+    With FSO.OpenTextFile(UTFtoUCS, , , TristateTrue)
         finalFile = .ReadAll
         .Close
     End With
+    
+    ' Cleanup temp files
+    FSO.DeleteFile tempFileName
+    FSO.DeleteFile UCStoUCS
+    FSO.DeleteFile UCStoUTF
+    FSO.DeleteFile UTFtoUTF
+    FSO.DeleteFile UTFtoUCS
     
     'Assert:
     Assert.AreEqual originalExport, finalFile

@@ -2,7 +2,7 @@
 Beginning Export of all Source
 AccessDB-Compiler.accdb
 VCS Version 1.2.0.19
-2/26/2020 9:22:30 AM
+2/26/2020 9:52:01 AM
 -------------------------------
 Exporting queries...    
 [0]
@@ -64,4 +64,4 @@ Exporting tbldef...
 Exporting relations...  
 [0]
 -------------------------------
-Done. (1.38 seconds)
+Done. (1.47 seconds)
