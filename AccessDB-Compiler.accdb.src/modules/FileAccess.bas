@@ -254,26 +254,3 @@ Public Sub WriteFile(strContent As String, strPath As String, Optional blnUnicod
         .Close
     End With
 End Sub
-
-
-
-' Test shows that UCS-2 files exported by Access make round trip through our conversions.
-Public Sub TestTextModes()
-    Dim queryName As String
-    queryName = "Temp_Test_Query_Delete_Me"
-    
-    CurrentDb.CreateQueryDef queryName, "SELECT * FROM TEST WHERE TESTING=TRUE"
-    
-    Dim tempFileName As String
-    tempFileName = GetTempFile()
-    
-    Application.SaveAsText acQuery, queryName, tempFileName
-    
-    ConvertUtf8Ucs2 tempFileName, tempFileName & "UCS2UCS"
-    ConvertUcs2Utf8 tempFileName, tempFileName & "UTF8"
-    ConvertUcs2Utf8 tempFileName & "UTF8", tempFileName & "UTF82UTF8"
-    ConvertUtf8Ucs2 tempFileName & "UTF8", tempFileName & "UTF82UCS"
-    
-    CurrentDb.QueryDefs.Delete queryName
-    ' Compare the 4 files in your temp folder. Note their Encoding should be UCS-2 or UTF-8 as expected.
-End Sub
