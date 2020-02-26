@@ -12,7 +12,7 @@ Begin Form
     Width =15780
     DatasheetFontHeight =11
     ItemSuffix =5
-    Right =25320
+    Right =25575
     Bottom =14625
     DatasheetGridlinesColor =15132391
     RecSrcDt = Begin
@@ -381,4 +381,5 @@ End Sub
 Private Sub LoadVCS_Click()
     VCSLoaded = Not VCSLoaded
     InitializeVersionControlSystem VCSLoaded
+    VBE.ActiveCodePane.Show
 End Sub
