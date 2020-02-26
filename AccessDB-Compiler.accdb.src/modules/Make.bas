@@ -8,7 +8,7 @@ Option Explicit
 '       https://github.com/joyfullservice/msaccess-vcs-integration
 '       https://github.com/timabell/msaccess-vcs-integration
 '--------------------------------------------------------------------
-Const Version As String = "0.6.0"
+Const Version As String = "0.6.2"
 
 
 

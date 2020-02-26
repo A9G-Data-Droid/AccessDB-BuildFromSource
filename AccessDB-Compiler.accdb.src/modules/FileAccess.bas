@@ -184,11 +184,11 @@ Public Function UsingUcs2(Optional ByRef appInstance As Application) As Boolean
         obj_name = "Temp_Test_Query_Delete_Me"
         
         thisDb.CreateQueryDef obj_name, "SELECT * FROM TEST WHERE TESTING=TRUE"
-        Application.SaveAsText acQuery, obj_name, tempFileName
+        appInstance.SaveAsText acQuery, obj_name, tempFileName
         thisDb.QueryDefs.Delete obj_name
     Else
         ' Use found object
-        Application.SaveAsText obj_type_num, obj_name, tempFileName
+        appInstance.SaveAsText obj_type_num, obj_name, tempFileName
     End If
 
     UsingUcs2 = FileIsUCS2Format(tempFileName)
