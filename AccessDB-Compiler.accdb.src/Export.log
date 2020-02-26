@@ -2,7 +2,7 @@
 Beginning Export of all Source
 AccessDB-Compiler.accdb
 VCS Version 1.2.0.19
-2/26/2020 9:17:30 AM
+2/26/2020 9:22:30 AM
 -------------------------------
 Exporting queries...    
 [0]
@@ -21,18 +21,18 @@ Exporting macros...
 [0]
 -------------------------------
 Exporting modules...    
-  ImportAllMain
   ImportRelations
   FileDialogWindows
+  ImportAllMain
+  Make
   ImportReport
   VCS_Dir
-  Make
   VCS_IE_Functions
   VCS_String
   ImportDataMacro
   ImportQuery
-  TestModule
   ImportReference
+  TestModule
   ImportTable
   ImportProperty
   VersionControlSystem
@@ -64,4 +64,4 @@ Exporting tbldef...
 Exporting relations...  
 [0]
 -------------------------------
-Done. (1.37 seconds)
+Done. (1.38 seconds)
