@@ -1,67 +1,74 @@
--------------------------------
+-------------------------------------
 Beginning Export of all Source
 AccessDB-Compiler.accdb
-VCS Version 1.2.0.19
-2/26/2020 2:00:06 PM
--------------------------------
-Exporting queries...    
-[0]
--------------------------------
-Exporting forms...      
-  CompilerGUI
-    Sanitized in 0.02 seconds.
+VCS Version 3.1.33
+Using Fast Save
+6/2/2020 11:13:21 AM
+-------------------------------------
+-------------------------------------
+Exporting VB project...         AccessDB-Compiler
+[1]
+-------------------------------------
+Exporting vbe references...     stdole
+[5]
+-------------------------------------
+No vbe forms found in this database.
+-------------------------------------
+No proj properties found in this database.
+-------------------------------------
+No saved specs found in this database.
+-------------------------------------
+No shared images found in this database.
+-------------------------------------
+No imex specs found in this database.
+-------------------------------------
+Exporting db properties...      Database Properties (DAO)
+[52]
+-------------------------------------
+Exporting tables...             CompilerSettings
+  CompilerSettings (SQL)
+[1]
+-------------------------------------
+No queries found in this database.
+-------------------------------------
+Exporting forms...              CompilerGUI
+    Sanitized in 0.05 seconds.
   LogWindow
-    Sanitized in 0.02 seconds.
+    Sanitized in 0.04 seconds.
 [2]
--------------------------------
-Exporting reports...    
-[0]
--------------------------------
-Exporting macros...     
-[0]
--------------------------------
-Exporting modules...    
+-------------------------------------
+No macros found in this database.
+  Removing orphaned file: VersionControlSystem.bas
+-------------------------------------
+Exporting modules...            ImportAllMain
   ImportRelations
   FileDialogWindows
-  ImportAllMain
-  Make
   ImportReport
   VCS_Dir
+  Make
   VCS_IE_Functions
   VCS_String
   ImportDataMacro
   ImportQuery
-  ImportReference
   TestModule
+  ImportReference
   ImportTable
   ImportProperty
-  VersionControlSystem
   FileAccess
-[16]
--------------------------------
-Exporting references... 
-  VBA 4.2
-  Access 9.0
-  stdole 2.0
-  DAO 12.0
-  VBIDE 5.3
-  Office 2.8
-  PowerPoint 2.12
-  [MSAccessVCS]
-[8]
--------------------------------
-Exporting properties... 
-[50]
--------------------------------
-Exporting specs...      
-[0]
--------------------------------
-Exporting tbldef...     
-  CompilerSettings (with SQL)
-  CompilerSettings
+[15]
+-------------------------------------
+No reports found in this database.
+-------------------------------------
+No table data found in this database.
+-------------------------------------
+No table data macros found in this database.
+-------------------------------------
+No relations found in this database.
+-------------------------------------
+Exporting doc properties...     Database Documents
 [1]
--------------------------------
-Exporting relations...  
-[0]
--------------------------------
-Done. (1.27 seconds)
+-------------------------------------
+Exporting nav pane groups...    Groups
+[1]
+-------------------------------------
+Done. (1.83 seconds)

@@ -1,4 +1,4 @@
-﻿Version =21
+Version =20
 VersionRequired =20
 Begin Form
     RecordSelectors = NotDefault
@@ -12,8 +12,8 @@ Begin Form
     Width =15780
     DatasheetFontHeight =11
     ItemSuffix =5
-    Right =25575
-    Bottom =14625
+    Right =18930
+    Bottom =14040
     DatasheetGridlinesColor =15132391
     RecSrcDt = Begin
         0xb31cfbeccd68e540
@@ -273,7 +273,6 @@ Begin Form
                     ForeColor =16777215
                     Name ="LoadVCS"
                     Caption ="Load Version Control"
-                    OnClick ="[Event Procedure]"
                     FontName ="Segoe UI"
                     ControlTipText ="Requires 'Version Control.accda'"
                     LeftPadding =105
@@ -374,12 +373,12 @@ End Sub
 
 Private Sub ShowAccess_Click()
     ShowAccessGui
-    LoadVCS.Visible = True
+    'LoadVCS.Visible = True
 End Sub
 
 ' Load or Unload Version Control Add-in
-Private Sub LoadVCS_Click()
-    VCSLoaded = Not VCSLoaded
-    InitializeVersionControlSystem VCSLoaded
-    VBE.ActiveCodePane.Show
-End Sub
+'Private Sub LoadVCS_Click()
+'    VCSLoaded = Not VCSLoaded
+'    InitializeVersionControlSystem VCSLoaded
+'    VBE.ActiveCodePane.Show
+'End Sub

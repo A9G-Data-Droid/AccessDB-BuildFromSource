@@ -1,0 +1,29 @@
+{
+  "Info": {
+    "AddinVersion": "1.0.0",
+    "AccessVersion": "16.0 64-bit",
+    "Hash": "@{527ac65f27c6277e43d124563081faf0c6b789cfd0584e13}"
+  },
+  "Options": {
+    "ExportFolder": "",
+    "ShowDebug": false,
+    "UseFastSave": true,
+    "SavePrintVars": true,
+    "SaveQuerySQL": true,
+    "SaveTableSQL": true,
+    "StripPublishOption": true,
+    "AggressiveSanitize": true,
+    "TablesToExportData": {
+      "USysRibbons": {
+        "Format": "Tab Delimited"
+      },
+      "USysRegInfo": {
+        "Format": "Tab Delimited"
+      }
+    },
+    "RunBeforeExport": "",
+    "RunAfterExport": "",
+    "RunAfterBuild": "",
+    "KeyName": "MSAccessVCS"
+  }
+}

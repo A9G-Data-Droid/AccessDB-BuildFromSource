@@ -1,0 +1,17 @@
+﻿{
+  "Info": {
+    "Class": "clsDbVbeProject",
+    "Description": "VBE Project",
+    "VCS Version": "3.1.33"
+  },
+  "Items": {
+    "Name": "AccessDB-Compiler",
+    "Description": "",
+    "FileName": "rel:AccessDB-Compiler.accdb",
+    "HelpFile": "㼿㼿",
+    "HelpContextId": 0,
+    "Mode": 0,
+    "Protection": 0,
+    "Type": 100
+  }
+}
