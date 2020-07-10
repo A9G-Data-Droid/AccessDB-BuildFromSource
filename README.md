@@ -1,7 +1,7 @@
 AccessDB-BuildFromSource
 ========================
 
-**NOTE: The upstream project now includes the capability to compile the code exported back in to a new Access file. Please use this instead: https://github.com/joyfullservice/msaccess-vcs-integration 
+**NOTE: The upstream project now includes the capability to compile the code exported back in to a new Access file. Please use this instead: https://github.com/joyfullservice/msaccess-vcs-integration**
 
 # About
 
